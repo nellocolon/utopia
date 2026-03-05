@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UTOPIA — Creator Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070810;--bg2:#0d0f1e;--bg3:#12152a;--border:rgba(99,120,255,0.15);--border2:rgba(99,120,255,0.08);--neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;--text:#e8eaf6;--text2:#8b93c4;--text3:#4a527a;--success:#00c896;--warn:#ffaa00;--danger:#ff4466}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100%;width:100%}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(99,120,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,120,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border2);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+.sidebar-logo{padding:28px 24px 24px;border-bottom:1px solid var(--border2)}
+.logo-badge{font-size:20px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1px;margin-top:2px}
+.nav-section{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;padding:0 12px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:all .2s;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:2px;position:relative;text-decoration:none}
+.nav-item:hover{background:var(--border2);color:var(--text)}
+.nav-item.active{background:rgba(99,120,255,0.15);color:var(--neon)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--neon);border-radius:0 3px 3px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border2)}
+.user-mini{display:flex;align-items:center;gap:10px}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon3));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.user-mini-name{font-size:13px;font-weight:700;color:var(--text)}
+.user-mini-xp{font-size:11px;color:var(--neon);font-family:'DM Mono',monospace}
+.main{margin-left:240px;flex:1;min-height:100vh;padding:40px}
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:40px;gap:20px}
+.topbar-left{}
+.topbar-title{font-size:26px;font-weight:800;letter-spacing:-0.5px}
+.topbar-sub{font-size:13px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:4px}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px 22px}
+.stat-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:10px}
+.stat-num{font-size:30px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text)}
+.stat-num.neon{background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-num.green{color:var(--success)}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:4px;font-family:'DM Mono',monospace}
+
+/* Main grid */
+.page-grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+.left-col{display:flex;flex-direction:column;gap:20px}
+.right-col{display:flex;flex-direction:column;gap:20px}
+
+/* Cards */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
+.card-head{padding:22px 24px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:15px;font-weight:700}
+.card-tag{font-size:10px;letter-spacing:2px;color:var(--neon);font-family:'DM Mono',monospace}
+.card-body{padding:24px}
+
+/* Today's ad status */
+.ad-status-banner{border-radius:12px;padding:20px;display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.ad-status-banner.no-ad{background:rgba(255,170,0,0.06);border:1px solid rgba(255,170,0,0.2)}
+.ad-status-banner.has-ad{background:rgba(0,200,150,0.06);border:1px solid rgba(0,200,150,0.2)}
+.status-icon{font-size:28px;flex-shrink:0}
+.status-text-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.status-text-sub{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
+
+/* Create ad form */
+.form-section{display:flex;flex-direction:column;gap:16px}
+.form-field{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:11px;letter-spacing:1.5px;color:var(--text3);font-family:'DM Mono',monospace}
+.form-input{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.form-input:focus{border-color:var(--neon)}
+.form-input::placeholder{color:var(--text3)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-hint{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.submit-btn{padding:14px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;border-radius:12px;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;width:100%}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,120,255,.35)}
+.submit-btn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Active ad display */
+.active-ad-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:20px}
+.active-ad-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.active-ad-title{font-size:15px;font-weight:700}
+.active-ad-id{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:3px}
+.live-badge{display:flex;align-items:center;gap:5px;font-size:10px;font-family:'DM Mono',monospace;color:var(--success);background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.25);padding:4px 10px;border-radius:20px;white-space:nowrap}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.metric-box{background:var(--bg2);border-radius:10px;padding:12px;text-align:center}
+.metric-val{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text)}
+.metric-lbl{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:4px}
+
+.expiry-bar-wrap{margin-top:12px}
+.expiry-label{display:flex;justify-content:space-between;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-bottom:6px}
+.expiry-bar{height:4px;background:var(--bg);border-radius:100px;overflow:hidden}
+.expiry-fill{height:100%;background:linear-gradient(90deg,var(--success),var(--neon));border-radius:100px;transition:width 1s}
+
+/* View log */
+.view-log{display:flex;flex-direction:column;gap:0}
+.view-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border2);font-size:13px}
+.view-row:last-child{border-bottom:none}
+.view-user{display:flex;align-items:center;gap:8px}
+.view-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--neon3),var(--neon));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.view-username{font-weight:600;color:var(--text)}
+.view-time{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
+.view-xp{font-size:12px;font-family:'DM Mono',monospace;color:var(--neon);font-weight:700}
+.view-verified{font-size:10px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:4px;background:rgba(0,200,150,0.1);color:var(--success)}
+
+/* Rules */
+.rule-list{display:flex;flex-direction:column;gap:10px}
+.rule-item{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--text2);line-height:1.5}
+.rule-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--neon);background:rgba(99,120,255,0.1);padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:1px}
+
+/* Revenue mini card */
+.revenue-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.revenue-title{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:14px}
+.revenue-main{font-size:36px;font-weight:800;font-family:'DM Mono',monospace;background:linear-gradient(135deg,var(--success),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.revenue-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.revenue-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--border2);font-size:12px;margin-top:12px}
+.revenue-row-label{color:var(--text2)}
+.revenue-row-val{font-family:'DM Mono',monospace;color:var(--text);font-weight:700}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(7,8,16,0.8);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:32px;max-width:480px;width:100%;animation:slideUp .3s ease both}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-title{font-size:18px;font-weight:800;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:24px;line-height:1.6}
+.modal-actions{display:flex;gap:10px;margin-top:24px}
+.modal-btn{flex:1;padding:12px;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;border:none}
+.modal-btn.cancel{background:var(--bg3);color:var(--text2)}
+.modal-btn.confirm{background:linear-gradient(135deg,var(--neon),var(--neon3));color:#fff}
+.modal-btn:hover{opacity:.85}
+
+.toast{position:fixed;bottom:28px;right:28px;z-index:300;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:600;max-width:320px;transform:translateY(80px);opacity:0;transition:all .3s;font-family:'DM Mono',monospace}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#00c89620;border:1px solid #00c89640;color:var(--success)}
+.toast.error{background:#ff446620;border:1px solid #ff446640;color:var(--danger)}
+
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.page-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">UTOPIA</div>
+      <div class="logo-sub">COMMUNITY PLATFORM</div>
+    </div>
+    <nav class="nav-section">
+      <div class="nav-label">MAIN</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">◈</span> Dashboard</a>
+      <a class="nav-item" href="community.html"><span class="nav-icon">◉</span> Communities</a>
+      <a class="nav-item" href="leaderboard.html"><span class="nav-icon">▲</span> Leaderboard</a>
+      <a class="nav-item" href="ads-user.html"><span class="nav-icon">◆</span> Daily Rewards</a>
+      <a class="nav-item" href="rewards.html"><span class="nav-icon">◎</span> Rewards Store</a>
+      <div class="nav-label" style="margin-top:16px">CREATOR</div>
+      <a class="nav-item active" href="ads-creator.html"><span class="nav-icon">⬡</span> Creator Ads</a>
+      <a class="nav-item" href="ads-milestone.html"><span class="nav-icon">◬</span> Milestones</a>
+      <a class="nav-item" href="ads-admin.html"><span class="nav-icon">⬢</span> Ad Analytics</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-avatar">G</div>
+        <div>
+          <div class="user-mini-name">Gio (Creator)</div>
+          <div class="user-mini-xp">Growth Plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title">Creator Ads</div>
+        <div class="topbar-sub">MANAGE YOUR DAILY COMMUNITY AD · MAX 1 PER DAY</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <select class="form-input" style="width:auto;padding:8px 12px;font-size:13px" id="community-select" onchange="switchCommunity(this.value)">
+          <option value="c1">UTOPIA Genesis</option>
+          <option value="c2">Blockchain Raiders</option>
+          <option value="c3">Meme Lords</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">TODAY'S VIEWS</div>
+        <div class="stat-num neon" id="today-views">247</div>
+        <div class="stat-sub">+18% vs yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">TOTAL VERIFIED</div>
+        <div class="stat-num" id="total-verified">8,412</div>
+        <div class="stat-sub">cumulative all time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">REVENUE EST.</div>
+        <div class="stat-num green" id="revenue-est">€50.47</div>
+        <div class="stat-sub">@€0.006 / view</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">AD ACTIVE</div>
+        <div class="stat-num" id="ad-active-stat" style="font-size:20px;padding-top:4px">● YES</div>
+        <div class="stat-sub" id="ad-expires-sub">expires in 14h 32m</div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="page-grid">
+      <div class="left-col">
+
+        <!-- TODAY'S AD STATUS -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-tag">TODAY</div>
+              <div class="card-title">Daily Ad Status</div>
+            </div>
+            <div id="live-badge-wrap"><div class="live-badge"><div class="live-dot"></div>LIVE</div></div>
+          </div>
+          <div class="card-body">
+            <div class="ad-status-banner has-ad" id="status-banner">
+              <div class="status-icon">✅</div>
+              <div>
+                <div class="status-text-title">Ad is running for today</div>
+                <div class="status-text-sub">UTOPIA GENESIS · Created at 09:15 · Expires at 09:15 tomorrow</div>
+              </div>
+            </div>
+
+            <!-- Active ad metrics -->
+            <div id="active-ad-section">
+              <div class="active-ad-box">
+                <div class="active-ad-header">
+                  <div>
+                    <div class="active-ad-title" id="ad-title-display">UTOPIA Launch Announcement</div>
+                    <div class="active-ad-id" id="ad-id-display">ID: ad_7f3a9c...2d01</div>
+                  </div>
+                  <div class="live-badge"><div class="live-dot"></div>ACTIVE</div>
+                </div>
+                <div class="metrics-row">
+                  <div class="metric-box">
+                    <div class="metric-val" id="m-total">247</div>
+                    <div class="metric-lbl">TOTAL VIEWS</div>
+                  </div>
+                  <div class="metric-box">
+                    <div class="metric-val" id="m-verified" style="color:var(--success)">241</div>
+                    <div class="metric-lbl">VERIFIED</div>
+                  </div>
+                  <div class="metric-box">
+                    <div class="metric-val" id="m-xp" style="color:var(--neon)">12,050</div>
+                    <div class="metric-lbl">XP DISTRIBUTED</div>
+                  </div>
+                </div>
+                <div class="expiry-bar-wrap">
+                  <div class="expiry-label">
+                    <span>Ad lifetime</span>
+                    <span id="expiry-text">~40% elapsed · 14h 32m left</span>
+                  </div>
+                  <div class="expiry-bar">
+                    <div class="expiry-fill" id="expiry-fill" style="width:40%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Create form (shown when no ad today) -->
+            <div id="create-ad-section" style="display:none">
+              <div class="form-section">
+                <div class="form-field">
+                  <label class="form-label">AD TITLE</label>
+                  <input class="form-input" id="ad-title-input" type="text" placeholder="e.g. UTOPIA Weekly Challenge" maxlength="80"/>
+                  <div class="form-hint">Shown to members in the Daily Quest section</div>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label class="form-label">AD NETWORK</label>
+                    <select class="form-input" id="ad-network-select">
+                      <option value="placeholder">Placeholder (testing)</option>
+                      <option value="google_admob">Google AdMob</option>
+                      <option value="unity">Unity Ads</option>
+                      <option value="ironsource">IronSource</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">AD UNIT ID</label>
+                    <input class="form-input" id="ad-unit-id" type="text" placeholder="ca-app-pub-xxxxx"/>
+                  </div>
+                </div>
+                <button class="submit-btn" onclick="createAd()">Create Today's Ad →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECENT VIEWS LOG -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-tag">LIVE LOG</div>
+              <div class="card-title">Recent Views</div>
+            </div>
+            <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)">auto-refreshes</div>
+          </div>
+          <div class="card-body" style="padding:8px 24px">
+            <div class="view-log" id="view-log">
+              <!-- Generated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="right-col">
+
+        <!-- REVENUE MINI -->
+        <div class="revenue-card">
+          <div class="revenue-title">ESTIMATED REVENUE</div>
+          <div class="revenue-main" id="rev-main">€0.053</div>
+          <div class="revenue-sub">today · @€0.006/verified view</div>
+          <div class="revenue-row"><div class="revenue-row-label">All time</div><div class="revenue-row-val">€50.47</div></div>
+          <div class="revenue-row"><div class="revenue-row-label">This week</div><div class="revenue-row-val">€8.91</div></div>
+          <div class="revenue-row"><div class="revenue-row-label">Last month</div><div class="revenue-row-val">€32.10</div></div>
+          <div class="revenue-row"><div class="revenue-row-label">Rate</div><div class="revenue-row-val" style="color:var(--neon)">€0.006/view</div></div>
+        </div>
+
+        <!-- RULES -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Creator Ad Rules</div>
+          </div>
+          <div class="card-body">
+            <div class="rule-list">
+              <div class="rule-item"><div class="rule-num">01</div>Max 1 ad per community per day — resets at midnight</div>
+              <div class="rule-item"><div class="rule-num">02</div>Ad is active for 24 hours from creation time</div>
+              <div class="rule-item"><div class="rule-num">03</div>Each member can view it once per day only</div>
+              <div class="rule-item"><div class="rule-num">04</div>Members must watch ≥25 seconds for view to count</div>
+              <div class="rule-item"><div class="rule-num">05</div>Tab must stay active — timer pauses on tab switch</div>
+              <div class="rule-item"><div class="rule-num">06</div>Duplicate sessions from same IP are filtered automatically</div>
+              <div class="rule-item"><div class="rule-num">07</div>Verified views increment milestone counter</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMUNITY SELECTOR -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">Your Communities</div></div>
+          <div class="card-body" style="padding:8px 24px">
+            <div id="comm-list">
+              <!-- Generated by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MODAL: confirm create -->
+<div class="modal-overlay" id="create-modal">
+  <div class="modal">
+    <div class="modal-title">Create Today's Ad?</div>
+    <div class="modal-sub">This will activate the ad for <strong id="modal-comm-name">UTOPIA Genesis</strong> for the next 24 hours. You won't be able to create another ad until tomorrow.</div>
+    <div style="background:var(--bg3);border-radius:10px;padding:14px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);line-height:1.7">
+      Title: <span id="modal-title-preview" style="color:var(--text)">—</span><br/>
+      Network: <span id="modal-network-preview" style="color:var(--text)">—</span><br/>
+      Revenue rate: <span style="color:var(--neon2)">€0.006 per verified view</span>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn confirm" onclick="confirmCreate()">Confirm & Activate →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const COMMUNITIES = {
+  c1: { name: 'UTOPIA Genesis', hasAd: true, views: 247, verified: 241, xp: 12050 },
+  c2: { name: 'Blockchain Raiders', hasAd: false, views: 0, verified: 0, xp: 0 },
+  c3: { name: 'Meme Lords', hasAd: true, views: 89, verified: 87, xp: 4350 },
+};
+
+const FAKE_VIEWS = [
+  { user: 'CryptoNaut', time: '2 min ago', xp: 50 },
+  { user: 'BlockWhale', time: '5 min ago', xp: 50 },
+  { user: 'MemeKing99', time: '8 min ago', xp: 50 },
+  { user: 'RaidBot', time: '11 min ago', xp: 50 },
+  { user: 'Galaxia', time: '14 min ago', xp: 50 },
+  { user: 'BlockHead', time: '18 min ago', xp: 50 },
+  { user: 'DegenMax', time: '22 min ago', xp: 50 },
+  { user: 'SolanaFan', time: '27 min ago', xp: 50 },
+];
+
+let currentCommunity = 'c1';
+let pendingCreate = {};
+
+function switchCommunity(id) {
+  currentCommunity = id;
+  renderPage();
+}
+
+function renderPage() {
+  const comm = COMMUNITIES[currentCommunity];
+  const hasAd = comm.hasAd;
+
+  // Banner
+  const banner = document.getElementById('status-banner');
+  banner.className = 'ad-status-banner ' + (hasAd ? 'has-ad' : 'no-ad');
+  banner.innerHTML = `<div class="status-icon">${hasAd ? '✅' : '⚠️'}</div>
+    <div><div class="status-text-title">${hasAd ? 'Ad is running for today' : 'No ad created yet today'}</div>
+    <div class="status-text-sub">${hasAd ? comm.name + ' · Created at 09:15 · Expires at 09:15 tomorrow' : 'Create your daily ad below to start earning revenue'}</div></div>`;
+
+  document.getElementById('active-ad-section').style.display = hasAd ? 'block' : 'none';
+  document.getElementById('create-ad-section').style.display = hasAd ? 'none' : 'block';
+  document.getElementById('live-badge-wrap').style.display = hasAd ? 'block' : 'none';
+  document.getElementById('ad-active-stat').textContent = hasAd ? '● YES' : '● NO';
+  document.getElementById('ad-active-stat').style.color = hasAd ? 'var(--success)' : 'var(--warn)';
+  document.getElementById('ad-expires-sub').textContent = hasAd ? 'expires in 14h 32m' : 'no ad today';
+
+  if (hasAd) {
+    document.getElementById('m-total').textContent = comm.views;
+    document.getElementById('m-verified').textContent = comm.verified;
+    document.getElementById('m-xp').textContent = comm.xp.toLocaleString();
+    document.getElementById('rev-main').textContent = '€' + (comm.verified * 0.006).toFixed(3);
+    document.getElementById('today-views').textContent = comm.views;
+    document.getElementById('total-verified').textContent = (comm.verified + 7839).toLocaleString();
+    document.getElementById('revenue-est').textContent = '€' + ((comm.verified + 7839) * 0.006).toFixed(2);
+  }
+
+  renderViewLog(hasAd ? FAKE_VIEWS : []);
+  renderCommList();
+}
+
+function renderViewLog(views) {
+  const log = document.getElementById('view-log');
+  if (!views.length) {
+    log.innerHTML = '<div style="padding:24px;text-align:center;font-size:13px;color:var(--text3);font-family:\'DM Mono\',monospace">No views yet today</div>';
+    return;
+  }
+  log.innerHTML = views.map(v => `
+    <div class="view-row">
+      <div class="view-user">
+        <div class="view-avatar">${v.user[0]}</div>
+        <div>
+          <div class="view-username">${v.user}</div>
+          <div class="view-time">${v.time}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="view-xp">+${v.xp} XP</div>
+        <div class="view-verified">✓ VERIFIED</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderCommList() {
+  const list = document.getElementById('comm-list');
+  list.innerHTML = Object.entries(COMMUNITIES).map(([id, c]) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border2);cursor:pointer" onclick="document.getElementById('community-select').value='${id}';switchCommunity('${id}')">
+      <div style="font-size:13px;font-weight:600;color:${id===currentCommunity?'var(--neon)':'var(--text)'}">${c.name}</div>
+      <div style="font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:10px;background:${c.hasAd?'rgba(0,200,150,0.1)':'rgba(255,170,0,0.1)'};color:${c.hasAd?'var(--success)':'var(--warn)'}">${c.hasAd?'● AD LIVE':'○ NO AD'}</div>
+    </div>`).join('');
+}
+
+function createAd() {
+  const title = document.getElementById('ad-title-input').value.trim();
+  if (!title) { showToast('Enter an ad title', 'error'); return; }
+  const network = document.getElementById('ad-network-select').value;
+  const unitId  = document.getElementById('ad-unit-id').value;
+  pendingCreate = { title, network, unitId };
+  document.getElementById('modal-comm-name').textContent = COMMUNITIES[currentCommunity].name;
+  document.getElementById('modal-title-preview').textContent = title;
+  document.getElementById('modal-network-preview').textContent = network;
+  document.getElementById('create-modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('create-modal').classList.remove('open'); }
+
+function confirmCreate() {
+  COMMUNITIES[currentCommunity].hasAd = true;
+  closeModal();
+  renderPage();
+  showToast('Ad created and live!', 'success');
+  // Simulate view trickle
+  let i = 0;
+  const interval = setInterval(() => {
+    COMMUNITIES[currentCommunity].views++;
+    COMMUNITIES[currentCommunity].verified++;
+    document.getElementById('m-total').textContent = COMMUNITIES[currentCommunity].views;
+    document.getElementById('m-verified').textContent = COMMUNITIES[currentCommunity].verified;
+    if (++i >= 5) clearInterval(interval);
+  }, 2000);
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// Init
+renderPage();
+
+// Simulate live view counter
+setInterval(() => {
+  if (COMMUNITIES[currentCommunity].hasAd && Math.random() > 0.6) {
+    COMMUNITIES[currentCommunity].views++;
+    COMMUNITIES[currentCommunity].verified++;
+    document.getElementById('m-total').textContent = COMMUNITIES[currentCommunity].views;
+    document.getElementById('m-verified').textContent = COMMUNITIES[currentCommunity].verified;
+    document.getElementById('today-views').textContent = COMMUNITIES[currentCommunity].views;
+  }
+}, 4000);
+</script>
+</body>
+</html>

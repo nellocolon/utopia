@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UTOPIA — Daily Rewards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070810;--bg2:#0d0f1e;--bg3:#12152a;--border:rgba(99,120,255,0.15);--border2:rgba(99,120,255,0.08);--neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;--text:#e8eaf6;--text2:#8b93c4;--text3:#4a527a;--success:#00c896;--warn:#ffaa00;--danger:#ff4466}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100%;width:100%}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(99,120,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,120,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border2);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+.sidebar-logo{padding:28px 24px 24px;border-bottom:1px solid var(--border2)}
+.logo-badge{font-size:20px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1px;margin-top:2px}
+.nav-section{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;padding:0 12px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:all .2s;font-size:14px;font-weight:600;color:var(--text2);margin-bottom:2px;position:relative;text-decoration:none}
+.nav-item:hover{background:var(--border2);color:var(--text)}
+.nav-item.active{background:rgba(99,120,255,0.15);color:var(--neon)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--neon);border-radius:0 3px 3px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border2)}
+.user-mini{display:flex;align-items:center;gap:10px}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon3));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.user-mini-name{font-size:13px;font-weight:700;color:var(--text)}
+.user-mini-xp{font-size:11px;color:var(--neon);font-family:'DM Mono',monospace}
+.main{margin-left:240px;flex:1;min-height:100vh;padding:40px}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px}
+.topbar-title{font-size:26px;font-weight:800;letter-spacing:-0.5px}
+.topbar-sub{font-size:13px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:4px}
+.date-chip{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3);background:var(--bg2);border:1px solid var(--border2);padding:6px 14px;border-radius:20px}
+
+/* ── STATS ROW ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-pill{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px 24px}
+.stat-pill-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:8px}
+.stat-pill-val{font-size:28px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text)}
+.stat-pill-val.neon{background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-pill-val.green{color:var(--success)}
+.stat-pill-delta{font-size:12px;color:var(--text3);margin-top:4px;font-family:'DM Mono',monospace}
+
+/* ── MAIN GRID ── */
+.content-grid{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+
+/* ── CLAIM CARD ── */
+.claim-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.claim-card-header{padding:28px 28px 0;position:relative}
+.claim-card-tag{font-size:10px;letter-spacing:2px;color:var(--neon);font-family:'DM Mono',monospace;margin-bottom:8px}
+.claim-card-title{font-size:22px;font-weight:800;margin-bottom:6px}
+.claim-card-sub{font-size:13px;color:var(--text2);line-height:1.6}
+.claim-divider{height:1px;background:var(--border2);margin:24px 0}
+
+/* ── OPTION CARDS ── */
+.options-wrapper{padding:0 28px 28px;display:flex;flex-direction:column;gap:16px}
+.option-card{border-radius:14px;border:2px solid var(--border2);padding:20px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.option-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none}
+.option-card.standard::before{background:radial-gradient(circle at 30% 50%,rgba(99,120,255,0.06),transparent 60%)}
+.option-card.rewarded::before{background:radial-gradient(circle at 30% 50%,rgba(0,229,255,0.06),transparent 60%)}
+.option-card:hover{transform:translateY(-2px)}
+.option-card:hover::before{opacity:1}
+.option-card.standard:hover{border-color:rgba(99,120,255,0.4)}
+.option-card.rewarded:hover{border-color:rgba(0,229,255,0.35)}
+.option-card.selected-std{border-color:var(--neon);background:rgba(99,120,255,0.06)}
+.option-card.selected-rwd{border-color:var(--neon2);background:rgba(0,229,255,0.05)}
+.option-card.disabled{opacity:.45;cursor:not-allowed;pointer-events:none}
+
+.option-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.option-title{font-size:16px;font-weight:700}
+.option-badge{font-size:10px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px}
+.badge-std{background:rgba(99,120,255,0.12);color:var(--neon)}
+.badge-rwd{background:rgba(0,229,255,0.1);color:var(--neon2)}
+.badge-done{background:rgba(0,200,150,0.12);color:var(--success)}
+.option-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
+.option-points{display:flex;align-items:center;gap:8px}
+.points-num{font-size:32px;font-weight:800;font-family:'DM Mono',monospace}
+.points-num.std-color{color:var(--neon)}
+.points-num.rwd-color{background:linear-gradient(135deg,var(--neon2),var(--neon3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.points-label{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;line-height:1.4}
+.formula-badge{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);background:var(--bg3);border:1px solid var(--border2);padding:3px 10px;border-radius:6px;margin-top:6px;display:inline-block}
+
+/* ── AD PLAYER ── */
+.ad-player-wrapper{margin-top:16px}
+.ad-player-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;overflow:hidden}
+.ad-screen{width:100%;height:180px;background:linear-gradient(135deg,#0d0f1e,#12152a);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;cursor:pointer}
+.ad-screen-icon{font-size:36px;margin-bottom:8px;opacity:.5}
+.ad-screen-label{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)}
+.ad-screen.playing .ad-screen-icon{animation:pulse 1.5s ease-in-out infinite}
+.ad-screen.playing .ad-screen-label{color:var(--neon2)}
+@keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* Simulated ad content */
+.ad-content-sim{width:100%;height:100%;display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.ad-content-sim.visible{display:flex}
+.ad-sim-brand{font-size:24px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ad-sim-tagline{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1px}
+.ad-sim-skip{position:absolute;top:10px;right:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);background:rgba(0,0,0,0.4);padding:3px 8px;border-radius:5px}
+
+.ad-progress-bar{height:3px;background:var(--bg);position:relative}
+.ad-progress-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));width:0%;transition:width .5s linear}
+
+.ad-controls{padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.ad-timer{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)}
+.ad-timer span{color:var(--neon2);font-weight:700}
+.ad-tab-warn{font-size:11px;font-family:'DM Mono',monospace;color:var(--warn);display:none}
+.ad-tab-warn.visible{display:block}
+
+/* ── CLAIM BUTTON ── */
+.claim-btn-wrap{padding:0 28px 28px}
+.claim-btn{width:100%;padding:16px;border-radius:12px;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .25s;border:none;letter-spacing:.3px}
+.claim-btn.ready-std{background:linear-gradient(135deg,var(--neon),var(--neon3));color:#fff}
+.claim-btn.ready-rwd{background:linear-gradient(135deg,var(--neon2),var(--neon));color:#111}
+.claim-btn.disabled-btn{background:var(--bg3);color:var(--text3);cursor:not-allowed}
+.claim-btn.claimed-btn{background:rgba(0,200,150,0.12);color:var(--success);border:1px solid rgba(0,200,150,0.25);cursor:default}
+.claim-btn:not(.disabled-btn):not(.claimed-btn):hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(99,120,255,0.35)}
+
+/* ── SIDEBAR PANEL ── */
+.sidebar-panel{display:flex;flex-direction:column;gap:16px}
+
+/* ── INFO CARD ── */
+.info-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.info-card-title{font-size:12px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:16px}
+.info-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2)}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row-label{font-size:13px;color:var(--text2)}
+.info-row-val{font-size:13px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text)}
+.info-row-val.green{color:var(--success)}
+.info-row-val.neon{color:var(--neon)}
+
+/* ── RULES CARD ── */
+.rules-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.rules-title{font-size:12px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:14px}
+.rule-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;color:var(--text2);line-height:1.5}
+.rule-icon{color:var(--neon);flex-shrink:0;margin-top:1px;font-size:11px;font-family:'DM Mono',monospace;background:rgba(99,120,255,0.1);padding:2px 6px;border-radius:4px}
+
+/* ── HISTORY CARD ── */
+.history-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.history-title{font-size:12px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:14px}
+.history-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border2)}
+.history-item:last-child{border-bottom:none}
+.history-left{display:flex;align-items:center;gap:10px}
+.history-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.history-dot.with-ad{background:var(--neon2)}
+.history-dot.no-ad{background:var(--text3)}
+.history-date{font-size:12px;font-family:'DM Mono',monospace;color:var(--text2)}
+.history-type{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
+.history-pts{font-size:14px;font-weight:700;font-family:'DM Mono',monospace;color:var(--neon)}
+
+/* ── SUCCESS OVERLAY ── */
+.success-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(7,8,16,0.85);backdrop-filter:blur(12px);opacity:0;pointer-events:none;transition:opacity .3s}
+.success-overlay.visible{opacity:1;pointer-events:all}
+.success-box{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:48px;text-align:center;max-width:400px;animation:popIn .4s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}
+.success-icon{font-size:56px;margin-bottom:16px}
+.success-pts{font-size:56px;font-weight:800;font-family:'DM Mono',monospace;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.success-label{font-size:14px;color:var(--text2);margin-bottom:8px}
+.success-breakdown{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3);margin-bottom:28px}
+.success-breakdown span{color:var(--neon2)}
+.success-close{padding:12px 32px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;border-radius:12px;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.success-close:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,120,255,.4)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:300;padding:14px 20px;border-radius:12px;font-size:13px;font-weight:600;max-width:320px;transform:translateY(80px);opacity:0;transition:all .3s;font-family:'DM Mono',monospace}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#00c89620;border:1px solid #00c89640;color:var(--success)}
+.toast.error{background:#ff446620;border:1px solid #ff446640;color:var(--danger)}
+.toast.warn{background:#ffaa0020;border:1px solid #ffaa0040;color:var(--warn)}
+
+@media(max-width:900px){.sidebar{transform:translateX(-100%)}.main{margin-left:0}.content-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">UTOPIA</div>
+      <div class="logo-sub">COMMUNITY PLATFORM</div>
+    </div>
+    <nav class="nav-section">
+      <div class="nav-label">MAIN</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">◈</span> Dashboard</a>
+      <a class="nav-item" href="community.html"><span class="nav-icon">◉</span> Communities</a>
+      <a class="nav-item" href="leaderboard.html"><span class="nav-icon">▲</span> Leaderboard</a>
+      <a class="nav-item active" href="ads-user.html"><span class="nav-icon">◆</span> Daily Rewards</a>
+      <a class="nav-item" href="rewards.html"><span class="nav-icon">◎</span> Rewards Store</a>
+      <div class="nav-label" style="margin-top:16px">ADMIN</div>
+      <a class="nav-item" href="ads-creator.html"><span class="nav-icon">⬡</span> Creator Ads</a>
+      <a class="nav-item" href="ads-milestone.html"><span class="nav-icon">◬</span> Milestones</a>
+      <a class="nav-item" href="ads-admin.html"><span class="nav-icon">⬢</span> Ad Analytics</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-avatar" id="avatar-init">G</div>
+        <div>
+          <div class="user-mini-name" id="user-name">Gio</div>
+          <div class="user-mini-xp" id="user-xp">1,250 XP</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Daily Rewards</div>
+        <div class="topbar-sub">CLAIM YOUR POINTS · WATCH AN AD FOR +20% BONUS</div>
+      </div>
+      <div class="date-chip" id="today-date">—</div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row">
+      <div class="stat-pill">
+        <div class="stat-pill-label">TOTAL POINTS</div>
+        <div class="stat-pill-val neon" id="total-points">1,250</div>
+        <div class="stat-pill-delta">all time accumulated</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">TODAY'S CLAIM</div>
+        <div class="stat-pill-val" id="today-claim">—</div>
+        <div class="stat-pill-delta">base: 100 pts</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">STREAK</div>
+        <div class="stat-pill-val green" id="streak-val">7</div>
+        <div class="stat-pill-delta">days in a row</div>
+      </div>
+      <div class="stat-pill">
+        <div class="stat-pill-label">ADS WATCHED</div>
+        <div class="stat-pill-val" id="ads-watched">3</div>
+        <div class="stat-pill-delta">this month</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT GRID -->
+    <div class="content-grid">
+
+      <!-- CLAIM CARD -->
+      <div class="claim-card">
+        <div class="claim-card-header">
+          <div class="claim-card-tag">— DAILY CLAIM</div>
+          <div class="claim-card-title">Choose how to claim</div>
+          <div class="claim-card-sub">Claim your 100 base points, or watch a 25-second ad for a +20% bonus. One claim per day.</div>
+        </div>
+        <div class="claim-divider"></div>
+
+        <div class="options-wrapper">
+
+          <!-- STANDARD OPTION -->
+          <div class="option-card standard" id="opt-standard" onclick="selectOption('standard')">
+            <div class="option-header">
+              <div class="option-title">Standard Claim</div>
+              <div class="option-badge badge-std">NO ADS</div>
+            </div>
+            <div class="option-desc">Just claim your daily points with no strings attached. Fast, simple, instant.</div>
+            <div class="option-points">
+              <div class="points-num std-color">100</div>
+              <div class="points-label">POINTS<br/>BASE</div>
+            </div>
+          </div>
+
+          <!-- REWARDED AD OPTION -->
+          <div class="option-card rewarded" id="opt-rewarded" onclick="selectOption('rewarded')">
+            <div class="option-header">
+              <div class="option-title">Watch Ad → +20% Bonus</div>
+              <div class="option-badge badge-rwd">+20 BONUS</div>
+            </div>
+            <div class="option-desc">Watch a short 25-second ad to boost your daily claim. Keep the tab active the whole time.</div>
+            <div class="option-points">
+              <div class="points-num rwd-color">120</div>
+              <div class="points-label">POINTS<br/>WITH BONUS</div>
+            </div>
+            <div class="formula-badge">floor(100 × 1.2) = 120 pts</div>
+
+            <!-- AD PLAYER (shown when rewarded selected) -->
+            <div class="ad-player-wrapper" id="ad-player-wrap" style="display:none">
+              <div style="margin-bottom:10px;margin-top:16px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)">AD PREVIEW — CLICK PLAY TO START</div>
+              <div class="ad-player-box">
+                <div class="ad-screen" id="ad-screen" onclick="startAdPlayback()">
+                  <div id="ad-idle" style="text-align:center">
+                    <div class="ad-screen-icon">▶</div>
+                    <div class="ad-screen-label">CLICK TO PLAY AD</div>
+                  </div>
+                  <div class="ad-content-sim" id="ad-sim">
+                    <div class="ad-sim-brand">SPONSOR</div>
+                    <div class="ad-sim-tagline">PLACEHOLDER AD CONTENT</div>
+                  </div>
+                  <div class="ad-sim-skip" id="skip-counter">Skip in <span id="skip-secs">25</span>s</div>
+                </div>
+                <div class="ad-progress-bar">
+                  <div class="ad-progress-fill" id="ad-progress"></div>
+                </div>
+                <div class="ad-controls">
+                  <div class="ad-timer">Watched: <span id="watch-timer">0</span>s / 25s</div>
+                  <div class="ad-tab-warn" id="tab-warn">⚠ Keep tab active!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLAIM BUTTON -->
+        <div class="claim-btn-wrap">
+          <button class="claim-btn disabled-btn" id="claim-btn" onclick="handleClaim()">
+            Select a claim method above
+          </button>
+          <div id="claim-status-msg" style="text-align:center;margin-top:10px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)"></div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR PANEL -->
+      <div class="sidebar-panel">
+
+        <!-- TODAY STATUS -->
+        <div class="info-card">
+          <div class="info-card-title">TODAY'S STATUS</div>
+          <div class="info-row">
+            <div class="info-row-label">Base Points</div>
+            <div class="info-row-val neon">100 pts</div>
+          </div>
+          <div class="info-row">
+            <div class="info-row-label">Ad Bonus (+20%)</div>
+            <div class="info-row-val green" id="bonus-display">+20 pts</div>
+          </div>
+          <div class="info-row">
+            <div class="info-row-label">Ad Watched Today</div>
+            <div class="info-row-val" id="ad-status-display">—</div>
+          </div>
+          <div class="info-row">
+            <div class="info-row-label">Claimed Today</div>
+            <div class="info-row-val" id="claimed-status">Not yet</div>
+          </div>
+          <div class="info-row">
+            <div class="info-row-label">Resets In</div>
+            <div class="info-row-val" id="reset-timer">—</div>
+          </div>
+        </div>
+
+        <!-- RULES -->
+        <div class="rules-card">
+          <div class="rules-title">HOW IT WORKS</div>
+          <div class="rule-item"><div class="rule-icon">01</div>Choose Standard or Rewarded claim</div>
+          <div class="rule-item"><div class="rule-icon">02</div>For the ad bonus, watch ≥25 seconds without switching tabs</div>
+          <div class="rule-item"><div class="rule-icon">03</div>Timer pauses automatically if you leave the page</div>
+          <div class="rule-item"><div class="rule-icon">04</div>Only 1 rewarded ad per day — refreshing won't re-trigger</div>
+          <div class="rule-item"><div class="rule-icon">05</div>Points credited instantly on claim confirmation</div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="history-card">
+          <div class="history-title">RECENT CLAIMS</div>
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-dot with-ad"></div>
+              <div>
+                <div class="history-date">Yesterday</div>
+                <div class="history-type">With ad bonus</div>
+              </div>
+            </div>
+            <div class="history-pts">+120</div>
+          </div>
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-dot no-ad"></div>
+              <div>
+                <div class="history-date">2 days ago</div>
+                <div class="history-type">Standard claim</div>
+              </div>
+            </div>
+            <div class="history-pts">+100</div>
+          </div>
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-dot with-ad"></div>
+              <div>
+                <div class="history-date">3 days ago</div>
+                <div class="history-type">With ad bonus</div>
+              </div>
+            </div>
+            <div class="history-pts">+120</div>
+          </div>
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-dot no-ad"></div>
+              <div>
+                <div class="history-date">4 days ago</div>
+                <div class="history-type">Standard claim</div>
+              </div>
+            </div>
+            <div class="history-pts">+100</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-box">
+    <div class="success-icon" id="success-icon">⭐</div>
+    <div class="success-pts" id="success-pts">120</div>
+    <div class="success-label">Points Claimed!</div>
+    <div class="success-breakdown" id="success-breakdown">100 base + <span>20 ad bonus</span></div>
+    <button class="success-close" onclick="closeSuccess()">Continue →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────
+const STATE = {
+  selectedOption: null,   // 'standard' | 'rewarded'
+  adWatched: false,
+  claimed: false,
+  watchedSeconds: 0,
+  adPlaying: false,
+  tabActive: true,
+  adStartTimestamp: null,
+  intervalId: null,
+  gateKey: 'utopia_ad_gate_demo',
+};
+
+// ── Init ───────────────────────────────────────────────────────────────
+function init() {
+  const now = new Date();
+  document.getElementById('today-date').textContent = now.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'short',year:'numeric'});
+
+  // Check if already claimed today (demo: session storage)
+  if (sessionStorage.getItem('utopia_claimed_today') === 'true') {
+    STATE.claimed = true;
+    showClaimedState();
+  }
+
+  // Check if ad was watched (demo: session storage)
+  if (sessionStorage.getItem(STATE.gateKey) === 'completed') {
+    STATE.adWatched = true;
+    document.getElementById('ad-status-display').textContent = '✓ Yes';
+    document.getElementById('ad-status-display').style.color = 'var(--success)';
+  }
+
+  updateResetTimer();
+  setInterval(updateResetTimer, 1000);
+}
+
+// ── Option Selection ───────────────────────────────────────────────────
+function selectOption(type) {
+  if (STATE.claimed) return;
+  STATE.selectedOption = type;
+
+  document.getElementById('opt-standard').className = 'option-card standard' + (type === 'standard' ? ' selected-std' : '');
+  document.getElementById('opt-rewarded').className = 'option-card rewarded' + (type === 'rewarded' ? ' selected-rwd' : '');
+
+  // Show/hide ad player
+  document.getElementById('ad-player-wrap').style.display = type === 'rewarded' ? 'block' : 'none';
+
+  updateClaimButton();
+}
+
+// ── Claim Button State ─────────────────────────────────────────────────
+function updateClaimButton() {
+  const btn = document.getElementById('claim-btn');
+  const msg = document.getElementById('claim-status-msg');
+
+  if (STATE.claimed) {
+    btn.className = 'claim-btn claimed-btn';
+    btn.textContent = '✓ Claimed today — see you tomorrow!';
+    msg.textContent = '';
+    return;
+  }
+
+  if (!STATE.selectedOption) {
+    btn.className = 'claim-btn disabled-btn';
+    btn.textContent = 'Select a claim method above';
+    return;
+  }
+
+  if (STATE.selectedOption === 'standard') {
+    btn.className = 'claim-btn ready-std';
+    btn.textContent = 'Claim 100 Points →';
+    msg.textContent = '';
+    return;
+  }
+
+  if (STATE.selectedOption === 'rewarded') {
+    if (!STATE.adWatched) {
+      btn.className = 'claim-btn disabled-btn';
+      btn.textContent = 'Watch the ad first to unlock bonus';
+      msg.textContent = STATE.adPlaying ? `Watching... ${STATE.watchedSeconds}/25s` : '';
+    } else {
+      btn.className = 'claim-btn ready-rwd';
+      btn.textContent = 'Claim 120 Points (+20% Bonus) →';
+      msg.textContent = '✓ Ad verified — bonus unlocked!';
+      msg.style.color = 'var(--success)';
+    }
+  }
+}
+
+// ── Ad Playback ─────────────────────────────────────────────────────────
+function startAdPlayback() {
+  if (STATE.adWatched || STATE.adPlaying) return;
+  if (sessionStorage.getItem(STATE.gateKey) === 'started' || sessionStorage.getItem(STATE.gateKey) === 'completed') {
+    showToast('Ad already played this session', 'warn'); return;
+  }
+
+  STATE.adPlaying = true;
+  STATE.adStartTimestamp = Date.now();
+  sessionStorage.setItem(STATE.gateKey, 'started');
+
+  // Show simulated ad content
+  document.getElementById('ad-idle').style.display = 'none';
+  document.getElementById('ad-sim').classList.add('visible');
+  document.getElementById('ad-screen').style.cursor = 'default';
+
+  // Visibility + blur/focus handlers
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('blur', handleBlur);
+  window.addEventListener('focus', handleFocus);
+
+  STATE.intervalId = setInterval(tickAd, 1000);
+  updateClaimButton();
+}
+
+function handleVisibilityChange() {
+  if (document.hidden) { STATE.tabActive = false; pauseAdTimer(); }
+  else { STATE.tabActive = true; resumeAdTimer(); }
+}
+function handleBlur()  { STATE.tabActive = false; pauseAdTimer(); }
+function handleFocus() { STATE.tabActive = true; resumeAdTimer(); }
+
+function pauseAdTimer() {
+  clearInterval(STATE.intervalId);
+  STATE.intervalId = null;
+  document.getElementById('tab-warn').classList.add('visible');
+}
+function resumeAdTimer() {
+  if (STATE.intervalId || STATE.adWatched) return;
+  STATE.intervalId = setInterval(tickAd, 1000);
+  document.getElementById('tab-warn').classList.remove('visible');
+}
+
+function tickAd() {
+  if (!STATE.tabActive || STATE.adWatched) return;
+  STATE.watchedSeconds++;
+
+  const pct = Math.min(100, (STATE.watchedSeconds / 25) * 100);
+  document.getElementById('ad-progress').style.width = pct + '%';
+  document.getElementById('watch-timer').textContent = STATE.watchedSeconds;
+  document.getElementById('skip-secs').textContent = Math.max(0, 25 - STATE.watchedSeconds);
+
+  updateClaimButton();
+
+  if (STATE.watchedSeconds >= 25) {
+    adCompleted();
+  }
+}
+
+function adCompleted() {
+  clearInterval(STATE.intervalId);
+  STATE.intervalId = null;
+  STATE.adWatched = true;
+  STATE.adPlaying = false;
+
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('blur', handleBlur);
+  window.removeEventListener('focus', handleFocus);
+
+  sessionStorage.setItem(STATE.gateKey, 'completed');
+
+  // Update UI
+  document.getElementById('ad-progress').style.width = '100%';
+  document.getElementById('ad-progress').style.background = 'var(--success)';
+  document.getElementById('watch-timer').textContent = '25';
+  document.getElementById('ad-sim').innerHTML = '<div style="font-size:28px">✓</div><div style="font-size:12px;font-family:\'DM Mono\',monospace;color:var(--success)">AD COMPLETE — BONUS UNLOCKED</div>';
+
+  document.getElementById('ad-status-display').textContent = '✓ Yes';
+  document.getElementById('ad-status-display').style.color = 'var(--success)';
+  document.getElementById('bonus-display').style.color = 'var(--success)';
+
+  updateClaimButton();
+  showToast('Ad verified! Claim your +20% bonus', 'success');
+}
+
+// ── Handle Claim ───────────────────────────────────────────────────────
+function handleClaim() {
+  if (STATE.claimed || !STATE.selectedOption) return;
+  if (STATE.selectedOption === 'rewarded' && !STATE.adWatched) return;
+
+  const isRewarded = STATE.selectedOption === 'rewarded';
+  const basePoints = 100;
+  const bonus      = isRewarded ? Math.floor(basePoints * 0.2) : 0;
+  const final      = basePoints + bonus;
+
+  // Simulate API call
+  STATE.claimed = true;
+  sessionStorage.setItem('utopia_claimed_today', 'true');
+
+  // Update stat
+  const totalEl = document.getElementById('total-points');
+  const current = parseInt(totalEl.textContent.replace(',','')) || 0;
+  totalEl.textContent = (current + final).toLocaleString();
+  document.getElementById('today-claim').textContent = '+' + final;
+  document.getElementById('today-claim').style.color = 'var(--success)';
+  document.getElementById('claimed-status').textContent = '✓ Claimed';
+  document.getElementById('claimed-status').style.color = 'var(--success)';
+
+  // Show success overlay
+  document.getElementById('success-icon').textContent = isRewarded ? '🎯' : '⭐';
+  document.getElementById('success-pts').textContent = final;
+  document.getElementById('success-breakdown').innerHTML = isRewarded
+    ? `100 base + <span>+${bonus} ad bonus</span> = ${final}`
+    : '100 base points';
+  document.getElementById('success-overlay').classList.add('visible');
+
+  updateClaimButton();
+}
+
+function closeSuccess() {
+  document.getElementById('success-overlay').classList.remove('visible');
+  showClaimedState();
+}
+
+function showClaimedState() {
+  document.getElementById('opt-standard').classList.add('disabled');
+  document.getElementById('opt-rewarded').classList.add('disabled');
+  updateClaimButton();
+}
+
+// ── Utilities ──────────────────────────────────────────────────────────
+function updateResetTimer() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0);
+  const diff = midnight - now;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('reset-timer').textContent =
+    `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UTOPIA Blog — Community Engagement Strategies, XP System Guides & Web3 Growth</title>
+<meta name="description" content="Expert guides on community engagement, memecoin growth, Twitter raid strategy, XP reward systems and Web3 community building. Learn how to turn followers into loyal advocates."/>
+<meta name="keywords" content="community engagement platform, memecoin community, Twitter raids, XP rewards system, Web3 community, crypto community growth, engagement strategy, UTOPIA"/>
+<meta property="og:title" content="UTOPIA Blog — Community Engagement Strategies & Growth Guides"/>
+<meta property="og:description" content="Expert guides on community growth, engagement raids, XP systems and Web3 community building."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://utopia.io/blog"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://utopia.io/blog"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "UTOPIA Blog",
+  "description": "Community engagement strategies, XP system design guides, and Web3 growth tactics.",
+  "url": "https://utopia.io/blog",
+  "publisher": { "@type": "Organization", "name": "UTOPIA", "url": "https://utopia.io" }
+}
+</script>
+<style>
+:root{
+  --bg:#05060f;--bg2:#0a0c1a;--bg3:#0f1225;--bg4:#141830;
+  --border:rgba(99,120,255,0.12);--border2:rgba(99,120,255,0.06);--border3:rgba(99,120,255,0.2);
+  --neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;--neon4:#ff6bcd;
+  --text:#eceef8;--text2:#8b93c4;--text3:#3d4570;
+  --success:#00c896;--warn:#ffaa00;--danger:#ff4466;
+  --glow-blue:0 0 60px rgba(99,120,255,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1}
+
+body::before{content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size:256px;opacity:.4;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(99,120,255,0.035) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(99,120,255,0.035) 1px,transparent 1px);
+  background-size:64px 64px;pointer-events:none;z-index:0}
+
+.glow-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(120px)}
+.g1{width:600px;height:600px;top:-200px;left:-100px;background:radial-gradient(circle,rgba(99,120,255,0.08),transparent 60%)}
+.g2{width:500px;height:500px;bottom:-100px;right:-100px;background:radial-gradient(circle,rgba(168,85,247,0.07),transparent 60%)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;height:68px;
+  background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border2)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-mark{width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+.nav-logo-text{font-size:16px;font-weight:800;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--text),var(--text2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-center{display:flex;align-items:center;gap:6px}
+.nav-link{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;
+  color:var(--text2);text-decoration:none;transition:all .2s}
+.nav-link:hover{color:var(--text);background:rgba(99,120,255,0.06)}
+.nav-link.here{color:var(--neon)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;
+  border-radius:10px;font-size:13px;font-weight:700;font-family:'Syne',sans-serif;
+  cursor:pointer;transition:all .2s;text-decoration:none;border:none;letter-spacing:.3px}
+.btn-ghost{background:transparent;border:1px solid var(--border3);color:var(--text2)}
+.btn-ghost:hover{border-color:var(--neon);color:var(--text);background:rgba(99,120,255,0.06)}
+.btn-primary{background:linear-gradient(135deg,var(--neon),var(--neon3));color:#fff;
+  box-shadow:0 4px 24px rgba(99,120,255,0.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 36px rgba(99,120,255,0.4)}
+.btn-lg{padding:14px 32px;font-size:15px;border-radius:13px}
+
+/* ── BLOG HEADER ── */
+.blog-header{position:relative;z-index:1;padding:128px 52px 68px;text-align:center;
+  border-bottom:1px solid var(--border2);overflow:hidden}
+.blog-header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:900px;height:500px;
+  background:radial-gradient(ellipse,rgba(99,120,255,0.09),transparent 65%);
+  pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:100px;margin-bottom:28px;
+  background:rgba(99,120,255,0.08);border:1px solid rgba(99,120,255,0.2);
+  font-size:11px;font-family:'DM Mono',monospace;letter-spacing:2.5px;color:var(--neon);
+  position:relative}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--neon);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.blog-title{font-size:clamp(40px,6vw,76px);font-weight:800;
+  letter-spacing:-2.5px;line-height:1.02;margin-bottom:20px;position:relative}
+.grad{background:linear-gradient(135deg,var(--neon),var(--neon2),var(--neon3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.blog-sub{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto;
+  line-height:1.75;font-weight:400}
+
+/* ── CONTROLS ── */
+.controls-bar{position:relative;z-index:1;max-width:1100px;margin:0 auto;
+  padding:36px 52px 0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.search-box{flex:1;min-width:200px;position:relative}
+.search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:var(--text3);pointer-events:none}
+.search-box input{width:100%;padding:11px 16px 11px 42px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:11px;
+  color:var(--text);font-family:'Syne',sans-serif;font-size:13px;
+  outline:none;transition:all .2s}
+.search-box input::placeholder{color:var(--text3)}
+.search-box input:focus{border-color:var(--neon);background:var(--bg3)}
+.cat-pills{display:flex;gap:8px;flex-wrap:wrap}
+.cat-btn{padding:8px 16px;border-radius:100px;font-size:12px;font-weight:700;
+  font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s;border:none;
+  background:var(--bg2);border:1px solid var(--border2);color:var(--text3)}
+.cat-btn:hover{border-color:var(--border3);color:var(--text2)}
+.cat-btn.on{background:rgba(99,120,255,0.1);border-color:rgba(99,120,255,0.3);color:var(--neon)}
+
+/* ── GRID LAYOUT ── */
+.blog-wrap{position:relative;z-index:1;max-width:1100px;margin:0 auto;
+  padding:44px 52px 100px;display:grid;
+  grid-template-columns:1fr 308px;gap:44px;align-items:start}
+.posts-col{min-width:0}
+
+/* ── FEATURED ── */
+.featured{background:var(--bg2);border:1px solid var(--border);border-radius:22px;
+  overflow:hidden;margin-bottom:28px;display:grid;grid-template-columns:1fr 1fr;
+  cursor:pointer;transition:all .3s}
+.featured:hover{border-color:var(--border3);transform:translateY(-4px);
+  box-shadow:0 28px 64px rgba(99,120,255,0.1)}
+.f-visual{position:relative;overflow:hidden;min-height:260px;
+  background:var(--bg3);display:flex;align-items:center;justify-content:center}
+.f-visual-bg{position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(99,120,255,0.18),rgba(168,85,247,0.1),rgba(0,229,255,0.07))}
+.f-visual-icon{font-size:84px;position:relative;z-index:1;
+  filter:drop-shadow(0 0 40px rgba(99,120,255,0.5));line-height:1}
+.f-body{padding:36px;display:flex;flex-direction:column;justify-content:center}
+.post-tag{display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:20px;
+  font-size:10px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:1.5px;
+  margin-bottom:14px;width:fit-content}
+.tag-strategy{background:rgba(99,120,255,0.1);color:var(--neon);border:1px solid rgba(99,120,255,0.2)}
+.tag-guide{background:rgba(0,200,150,0.1);color:var(--success);border:1px solid rgba(0,200,150,0.2)}
+.tag-web3{background:rgba(168,85,247,0.1);color:var(--neon3);border:1px solid rgba(168,85,247,0.2)}
+.tag-growth{background:rgba(0,229,255,0.1);color:var(--neon2);border:1px solid rgba(0,229,255,0.2)}
+.tag-news{background:rgba(255,170,0,0.1);color:var(--warn);border:1px solid rgba(255,170,0,0.2)}
+.featured-pill{display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:9px;font-family:'DM Mono',monospace;font-weight:700;letter-spacing:1.5px;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));color:#fff;
+  margin-right:6px;vertical-align:middle}
+.post-title{font-size:20px;font-weight:800;letter-spacing:-.4px;
+  line-height:1.3;margin-bottom:12px;color:var(--text);transition:color .2s}
+.featured:hover .post-title,.post-card:hover .post-title{color:var(--neon)}
+.post-excerpt{font-size:13px;color:var(--text2);line-height:1.75;
+  margin-bottom:20px;font-weight:400}
+.post-meta{display:flex;align-items:center;gap:12px;
+  font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
+.m-av{width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+.m-dot{opacity:.3}
+
+/* ── POST CARDS GRID ── */
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.post-card{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;
+  overflow:hidden;cursor:pointer;transition:all .25s;display:flex;flex-direction:column}
+.post-card:hover{border-color:var(--border3);transform:translateY(-4px);
+  box-shadow:0 20px 48px rgba(99,120,255,0.08)}
+.card-thumb{height:148px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg3);font-size:52px;flex-shrink:0}
+.card-thumb-bg{position:absolute;inset:0;transition:transform .4s}
+.post-card:hover .card-thumb-bg{transform:scale(1.06)}
+.card-thumb-icon{position:relative;z-index:1;line-height:1;
+  filter:drop-shadow(0 0 18px rgba(99,120,255,0.3))}
+.card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.card-body .post-excerpt{font-size:12px;flex:1;margin-bottom:14px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;border-top:1px solid var(--border2);margin-top:auto}
+.read-more{font-size:11px;font-weight:700;color:var(--neon);
+  font-family:'DM Mono',monospace;display:flex;align-items:center;gap:4px;
+  transition:gap .2s}
+.post-card:hover .read-more{gap:8px}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;display:none}
+.empty-icon{font-size:44px;margin-bottom:14px}
+.empty-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.empty-sub{font-size:13px;color:var(--text2)}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:20px;position:sticky;top:88px}
+.s-card{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
+.s-head{padding:16px 20px;border-bottom:1px solid var(--border2)}
+.s-eyebrow{font-size:9px;letter-spacing:2.5px;color:var(--neon);
+  font-family:'DM Mono',monospace;margin-bottom:3px}
+.s-title{font-size:14px;font-weight:700}
+.s-body{padding:16px 20px}
+
+/* newsletter */
+.nl-input{width:100%;padding:10px 14px;margin-bottom:8px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:9px;
+  color:var(--text);font-family:'Syne',sans-serif;font-size:13px;
+  outline:none;transition:border-color .2s}
+.nl-input:focus{border-color:var(--neon)}
+.nl-input::placeholder{color:var(--text3)}
+.nl-btn{width:100%;padding:11px;border-radius:9px;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;
+  color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s}
+.nl-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,120,255,0.3)}
+.nl-note{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);
+  text-align:center;margin-top:8px;line-height:1.6}
+
+/* popular */
+.pop-row{display:flex;gap:12px;padding:10px 0;
+  border-bottom:1px solid var(--border2);cursor:pointer;transition:opacity .2s}
+.pop-row:last-child{border-bottom:none;padding-bottom:0}
+.pop-row:hover{opacity:.75}
+.pop-n{font-size:18px;font-weight:800;font-family:'DM Mono',monospace;
+  color:var(--text3);flex-shrink:0;line-height:1.1;min-width:22px}
+.pop-t{font-size:12px;font-weight:700;line-height:1.45;margin-bottom:3px;
+  color:var(--text)}
+.pop-m{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3)}
+
+/* topics */
+.topics{display:flex;flex-wrap:wrap;gap:7px;padding:16px 20px}
+.topic{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  background:var(--bg3);border:1px solid var(--border2);color:var(--text3);
+  cursor:pointer;transition:all .2s}
+.topic:hover{border-color:var(--border3);color:var(--text2)}
+.topic.hot{border-color:rgba(99,120,255,0.25);color:var(--neon);
+  background:rgba(99,120,255,0.06)}
+
+/* platform CTA */
+.plat-cta{background:linear-gradient(135deg,rgba(99,120,255,0.1),rgba(168,85,247,0.07));
+  border:1px solid rgba(99,120,255,0.2);border-radius:18px;padding:24px;text-align:center}
+.plat-cta-title{font-size:16px;font-weight:800;letter-spacing:-.3px;margin-bottom:7px}
+.plat-cta-sub{font-size:12px;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.plat-cta-btn{display:block;padding:11px;border-radius:10px;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  text-decoration:none;transition:all .2s}
+.plat-cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,120,255,0.3)}
+
+/* ── ARTICLE OVERLAY ── */
+.art-overlay{position:fixed;inset:0;z-index:200;
+  background:var(--bg);overflow-y:auto;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+  /* noise + grid underneath */}
+.art-overlay::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(99,120,255,0.03) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(99,120,255,0.03) 1px,transparent 1px);
+  background-size:64px 64px;pointer-events:none;z-index:0}
+.art-overlay.open{opacity:1;pointer-events:all}
+.art-inner{max-width:720px;margin:0 auto;padding:100px 40px 80px;position:relative;z-index:1}
+.art-back{display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-family:'DM Mono',monospace;color:var(--text2);
+  cursor:pointer;margin-bottom:40px;transition:color .2s;
+  background:transparent;border:none;padding:0;letter-spacing:.5px}
+.art-back:hover{color:var(--neon)}
+.art-title{font-size:clamp(28px,4.5vw,46px);font-weight:800;
+  letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px}
+.art-meta-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:16px 0;border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);
+  margin-bottom:44px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
+.a-av{width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+
+/* Article typography */
+.art-body{font-size:17px;line-height:1.82;color:var(--text2);font-weight:400}
+.art-body h2{font-size:26px;font-weight:800;color:var(--text);letter-spacing:-.5px;
+  margin:48px 0 16px;line-height:1.2}
+.art-body h3{font-size:20px;font-weight:700;color:var(--text);margin:32px 0 12px}
+.art-body p{margin-bottom:22px}
+.art-body strong{color:var(--text);font-weight:700}
+.art-body a{color:var(--neon);text-decoration:none;
+  border-bottom:1px solid rgba(99,120,255,.3);transition:border-color .2s}
+.art-body a:hover{border-color:var(--neon)}
+.art-body ul,.art-body ol{margin:4px 0 24px 24px;display:flex;flex-direction:column;gap:10px}
+.art-body li{line-height:1.75}
+.art-body blockquote{margin:28px 0;padding:20px 24px;
+  background:rgba(99,120,255,0.05);border-left:3px solid var(--neon);
+  border-radius:0 12px 12px 0;font-style:italic;color:var(--text);font-size:18px}
+.art-body .tip{background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:20px 24px;margin:28px 0;font-size:15px;color:var(--text)}
+.art-body .tip-label{font-size:9px;font-family:'DM Mono',monospace;
+  color:var(--neon);letter-spacing:2.5px;margin-bottom:10px;display:block}
+.art-body code{font-family:'DM Mono',monospace;font-size:14px;
+  background:var(--bg3);padding:2px 7px;border-radius:5px;color:var(--neon2)}
+.art-body .big-stat{font-size:48px;font-weight:800;font-family:'DM Mono',monospace;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  display:block;margin:8px 0 4px;letter-spacing:-2px}
+.art-body .stat-note{font-size:12px;font-family:'DM Mono',monospace;
+  color:var(--text3);display:block;margin-bottom:24px}
+
+.art-cta{margin-top:56px;padding:36px;background:var(--bg2);
+  border:1px solid var(--border3);border-radius:20px;text-align:center;
+  position:relative;overflow:hidden}
+.art-cta::before{content:'';position:absolute;top:-60px;left:50%;
+  transform:translateX(-50%);width:400px;height:200px;
+  background:radial-gradient(ellipse,rgba(99,120,255,0.1),transparent 65%);pointer-events:none}
+.art-cta h3{font-size:22px;font-weight:800;margin-bottom:8px;
+  letter-spacing:-.3px;position:relative}
+.art-cta p{font-size:14px;color:var(--text2);margin-bottom:20px;
+  line-height:1.65;position:relative}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;border-top:1px solid var(--border2);
+  padding:48px 52px;display:flex;align-items:center;justify-content:space-between}
+.f-logo{font-size:14px;font-weight:800;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.f-copy{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.f-links{display:flex;gap:24px}
+.f-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--text2)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;right:28px;z-index:500;
+  padding:13px 20px;border-radius:12px;background:var(--bg2);
+  border:1px solid rgba(0,200,150,.4);color:var(--success);
+  font-size:13px;font-weight:700;font-family:'DM Mono',monospace;
+  transform:translateY(60px);opacity:0;transition:all .35s;z-index:600}
+#toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:1024px){
+  .blog-wrap{grid-template-columns:1fr;padding:32px 28px 80px}
+  .sidebar{position:static}
+}
+@media(max-width:768px){
+  nav{padding:0 20px}.nav-center{display:none}
+  .blog-header{padding:108px 24px 56px}
+  .controls-bar{padding:28px 24px 0}
+  .blog-wrap{padding:28px 24px 60px}
+  .featured{grid-template-columns:1fr}
+  .f-visual{min-height:160px}
+  .cards-grid{grid-template-columns:1fr}
+  .art-inner{padding:90px 24px 60px}
+  footer{flex-direction:column;gap:18px;text-align:center;padding:36px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="glow-orb g1"></div>
+<div class="glow-orb g2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">U</div>
+    <div class="nav-logo-text">UTOPIA</div>
+  </a>
+  <div class="nav-center">
+    <a href="index.html#features" class="nav-link">Features</a>
+    <a href="index.html#pricing" class="nav-link">Pricing</a>
+    <a href="blog.html" class="nav-link here">Blog</a>
+    <a href="community.html" class="nav-link">Demo</a>
+  </div>
+  <div class="nav-right">
+    <a href="dashboard.html" class="btn btn-ghost">Sign in</a>
+    <a href="onboarding.html" class="btn btn-primary">Get started →</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="blog-header">
+  <div class="eyebrow">◆ THE UTOPIA BLOG</div>
+  <h1 class="blog-title">Grow smarter.<br/><span class="grad">Engage deeper.</span></h1>
+  <p class="blog-sub">Strategy guides, platform updates and expert insights on community engagement, Web3 growth and XP-powered loyalty systems.</p>
+</header>
+
+<!-- CONTROLS -->
+<div class="controls-bar">
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" placeholder="Search articles…" id="search-in" oninput="filterPosts()"/>
+  </div>
+  <div class="cat-pills" id="cat-pills">
+    <button class="cat-btn on" data-cat="all" onclick="setCat(this)">All</button>
+    <button class="cat-btn" data-cat="strategy" onclick="setCat(this)">Strategy</button>
+    <button class="cat-btn" data-cat="guide" onclick="setCat(this)">Guides</button>
+    <button class="cat-btn" data-cat="web3" onclick="setCat(this)">Web3</button>
+    <button class="cat-btn" data-cat="growth" onclick="setCat(this)">Growth</button>
+    <button class="cat-btn" data-cat="news" onclick="setCat(this)">Updates</button>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="blog-wrap">
+  <div class="posts-col">
+
+    <!-- FEATURED -->
+    <article class="featured reveal" data-cat="strategy" data-id="a1" onclick="openArt('a1')">
+      <div class="f-visual">
+        <div class="f-visual-bg"></div>
+        <div class="f-visual-icon">⚔</div>
+      </div>
+      <div class="f-body">
+        <div>
+          <span class="featured-pill">FEATURED</span>
+          <span class="post-tag tag-strategy">STRATEGY</span>
+        </div>
+        <h2 class="post-title">The Complete Guide to Twitter Raid Strategy: How to 10× Your Community Engagement in 30 Days</h2>
+        <p class="post-excerpt">Coordinated engagement campaigns are the highest-ROI growth lever for crypto and Web3 communities. Here's the exact framework top communities use to consistently hit 1,000+ engagements per tweet.</p>
+        <div class="post-meta">
+          <div class="m-av">U</div>
+          <span>UTOPIA Team</span>
+          <span class="m-dot">·</span>
+          <span>Jan 28, 2025</span>
+          <span class="m-dot">·</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARDS GRID -->
+    <div class="cards-grid" id="cards-grid">
+
+      <article class="post-card reveal" data-cat="guide" data-id="a2" onclick="openArt('a2')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(0,200,150,0.15),rgba(0,229,255,0.08))"></div>
+          <div class="card-thumb-icon">⭐</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-guide" style="margin-bottom:10px">GUIDE</span>
+          <h2 class="post-title" style="font-size:15px">Designing an XP System That Actually Keeps Members Coming Back</h2>
+          <p class="post-excerpt">Most XP systems fail within 3 months. Here's the psychology-backed framework for reward loops that stay sticky long-term.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 22 · 6 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card reveal" data-cat="web3" data-id="a3" onclick="openArt('a3')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(168,85,247,0.15),rgba(99,120,255,0.08))"></div>
+          <div class="card-thumb-icon">🪙</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-web3" style="margin-bottom:10px">WEB3</span>
+          <h2 class="post-title" style="font-size:15px">Memecoin Communities in 2025: Why Engagement Infrastructure Is the New Moat</h2>
+          <p class="post-excerpt">Token price follows narrative. Narrative follows community engagement. Here's why infrastructure beats hype every time.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 18 · 7 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card reveal" data-cat="growth" data-id="a4" onclick="openArt('a4')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(0,229,255,0.12),rgba(99,120,255,0.1))"></div>
+          <div class="card-thumb-icon">📈</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-growth" style="margin-bottom:10px">GROWTH</span>
+          <h2 class="post-title" style="font-size:15px">From 0 to 1,000 Members: The Exact Playbook We Used with UTOPIA Genesis</h2>
+          <p class="post-excerpt">A real case study: 0 to 1,047 active members in 47 days using raids, referral multipliers and a structured quest system.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 14 · 9 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card reveal" data-cat="guide" data-id="a5" onclick="openArt('a5')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(255,170,0,0.12),rgba(255,107,205,0.08))"></div>
+          <div class="card-thumb-icon">🏆</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-guide" style="margin-bottom:10px">GUIDE</span>
+          <h2 class="post-title" style="font-size:15px">Leaderboard Psychology: Making Rankings Addictive Without Being Toxic</h2>
+          <p class="post-excerpt">The design system we refined across 50+ communities for healthy competitive leaderboards that drive retention, not churn.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 10 · 5 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card reveal" data-cat="news" data-id="a6" onclick="openArt('a6')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(99,120,255,0.15),rgba(168,85,247,0.1))"></div>
+          <div class="card-thumb-icon">⚡</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-news" style="margin-bottom:10px">UPDATE</span>
+          <h2 class="post-title" style="font-size:15px">Introducing Ad Rewards: Earn Free Subscription Days Through Community Engagement</h2>
+          <p class="post-excerpt">A milestone-based loop where communities earn free UTOPIA subscription days by hitting cumulative ad view targets.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 6 · 4 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card reveal" data-cat="strategy" data-id="a7" onclick="openArt('a7')">
+        <div class="card-thumb">
+          <div class="card-thumb-bg" style="background:linear-gradient(135deg,rgba(0,200,150,0.12),rgba(0,229,255,0.1))"></div>
+          <div class="card-thumb-icon">🤖</div>
+        </div>
+        <div class="card-body">
+          <span class="post-tag tag-strategy" style="margin-bottom:10px">STRATEGY</span>
+          <h2 class="post-title" style="font-size:15px">Telegram Bot Integration: Automating Community Management Without Losing the Human Touch</h2>
+          <p class="post-excerpt">How to configure UTOPIA's Telegram bot for referral tracking, XP alerts and daily recaps — step by step.</p>
+          <div class="card-foot">
+            <div class="post-meta"><div class="m-av">U</div><span style="margin-left:6px">Jan 3 · 6 min</span></div>
+            <span class="read-more">Read →</span>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /cards-grid -->
+
+    <div class="empty" id="empty">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">No articles found</div>
+      <div class="empty-sub">Try a different keyword or category.</div>
+    </div>
+
+  </div><!-- /posts-col -->
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="s-card">
+      <div class="s-head"><div class="s-eyebrow">FREE · WEEKLY</div><div class="s-title">Growth Newsletter</div></div>
+      <div class="s-body">
+        <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:14px;font-weight:400">Community tactics, engagement data and platform updates — every Tuesday.</p>
+        <input class="nl-input" type="email" placeholder="your@email.com" id="nl-email"/>
+        <button class="nl-btn" onclick="subscribe()">Subscribe →</button>
+        <div class="nl-note">★ 2,400+ community managers · No spam, ever.</div>
+      </div>
+    </div>
+
+    <div class="s-card">
+      <div class="s-head"><div class="s-eyebrow">MOST READ</div><div class="s-title">Popular Articles</div></div>
+      <div class="s-body">
+        <div class="pop-row" onclick="openArt('a1')">
+          <div class="pop-n">01</div>
+          <div><div class="pop-t">The Complete Guide to Twitter Raid Strategy</div><div class="pop-m">8 min · Strategy</div></div>
+        </div>
+        <div class="pop-row" onclick="openArt('a3')">
+          <div class="pop-n">02</div>
+          <div><div class="pop-t">Memecoin Communities in 2025</div><div class="pop-m">7 min · Web3</div></div>
+        </div>
+        <div class="pop-row" onclick="openArt('a4')">
+          <div class="pop-n">03</div>
+          <div><div class="pop-t">From 0 to 1,000 Members: The Playbook</div><div class="pop-m">9 min · Growth</div></div>
+        </div>
+        <div class="pop-row" onclick="openArt('a2')">
+          <div class="pop-n">04</div>
+          <div><div class="pop-t">Designing an XP System That Sticks</div><div class="pop-m">6 min · Guide</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-card">
+      <div class="s-head"><div class="s-eyebrow">EXPLORE</div><div class="s-title">Topics</div></div>
+      <div class="topics">
+        <span class="topic hot" onclick="setCatByKey('strategy')">Strategy</span>
+        <span class="topic hot" onclick="setCatByKey('guide')">Guides</span>
+        <span class="topic" onclick="setCatByKey('web3')">Web3</span>
+        <span class="topic" onclick="setCatByKey('growth')">Growth</span>
+        <span class="topic" onclick="setCatByKey('news')">Updates</span>
+        <span class="topic">XP Systems</span>
+        <span class="topic">Leaderboards</span>
+        <span class="topic">Telegram Bots</span>
+        <span class="topic">Referrals</span>
+        <span class="topic">Memecoin</span>
+      </div>
+    </div>
+
+    <div class="plat-cta">
+      <div class="plat-cta-title">Ready to try it?</div>
+      <div class="plat-cta-sub">Launch your community on UTOPIA and start running engagement raids in minutes. Free forever to start.</div>
+      <a href="onboarding.html" class="plat-cta-btn">Start for free →</a>
+    </div>
+
+  </aside>
+
+</div><!-- /blog-wrap -->
+
+<footer>
+  <div>
+    <div class="f-logo">UTOPIA</div>
+    <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:4px">Community Engagement Platform v1.0</div>
+  </div>
+  <div class="f-links">
+    <a href="index.html">Home</a>
+    <a href="blog.html">Blog</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="community.html">Demo</a>
+  </div>
+  <div class="f-copy">© 2025 UTOPIA</div>
+</footer>
+
+<!-- ═══ ARTICLE OVERLAY ═══ -->
+<div class="art-overlay" id="art-overlay">
+  <div class="art-inner">
+    <button class="art-back" onclick="closeArt()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
+      Back to Blog
+    </button>
+    <div id="art-tag"></div>
+    <h1 class="art-title" id="art-title"></h1>
+    <div class="art-meta-bar">
+      <div class="a-av">U</div>
+      <div style="margin-left:10px">
+        <div style="color:var(--text);font-weight:700;font-size:13px">UTOPIA Team</div>
+        <div id="art-meta" style="margin-top:2px"></div>
+      </div>
+    </div>
+    <div class="art-body" id="art-body"></div>
+    <div class="art-cta">
+      <h3>Start building your engaged community today</h3>
+      <p>Everything in this article is built into UTOPIA — free to start, no credit card needed.</p>
+      <a href="onboarding.html" class="btn btn-primary btn-lg" style="display:inline-flex">Launch your community →</a>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Subscribed! First issue arrives Tuesday.</div>
+
+<script>
+/* ── ARTICLES DATA ── */
+const ARTS = {
+  a1:{
+    cat:'strategy',catClass:'tag-strategy',catLabel:'STRATEGY',
+    date:'January 28, 2025',read:'8 min read',
+    title:'The Complete Guide to Twitter Raid Strategy: How to 10× Your Community Engagement in 30 Days',
+    body:`
+<p>Coordinated engagement campaigns — what the Web3 world calls <strong>raids</strong> — are the single highest-ROI growth activity for any crypto or creator community on Twitter/X. Done right, they compound: more engagement signals the algorithm, which amplifies reach, which attracts new members, which generates more engagement.</p>
+<p>But most communities do raids wrong. They're chaotic, untracked, and unsustainable. Here's the framework that actually works.</p>
+<h2>Why Raids Work (And Why Most Fail)</h2>
+<p>Twitter's algorithm is fundamentally an engagement-rate game. A tweet with 500 likes in the first hour performs orders of magnitude better than one that reaches 500 likes in 24 hours. Raids solve this by compressing engagement into the earliest window.</p>
+<blockquote>"The communities consistently winning on Twitter aren't louder — they're more coordinated."</blockquote>
+<p>The failure mode is simple: raids without <strong>verification</strong> and <strong>incentive</strong> degrade into empty calls-to-action. Members don't show up. Or they show up once and churn.</p>
+<h2>The 3-Layer Raid System</h2>
+<p>Every effective raid campaign has three components working together:</p>
+<ul>
+<li><strong>Activation layer</strong> — real-time alerts via Telegram bot that fire the moment a raid goes live</li>
+<li><strong>Incentive layer</strong> — tracked XP rewards for each verified action (like, RT, reply) on a public leaderboard</li>
+<li><strong>Verification layer</strong> — automated checking that filters bot activity so only real engagements earn XP</li>
+</ul>
+<h2>XP Weighting That Actually Works</h2>
+<div class="tip"><span class="tip-label">RECOMMENDED CONFIG</span>Replies earn 2–3× more than likes — they drive harder algorithmic boost.<br/>A solid default: Like = 10 XP · Retweet = 20 XP · Reply = 30 XP</div>
+<p>Set a public engagement target (e.g. 1,000 total actions). Visible progress bars drive completionist behaviour and create urgency that passive calls-to-action never will.</p>
+<h2>The 30-Day Compounding Calendar</h2>
+<ul>
+<li><strong>Week 1–2:</strong> 3 raids/week, same days. Build the habit before you build the audience.</li>
+<li><strong>Week 3:</strong> Mega Raid with 2× XP multiplier. Create a spike moment people remember.</li>
+<li><strong>Week 4:</strong> Season leaderboard reset + new reward tier unlocks. Reactivate members who've gone quiet.</li>
+</ul>
+<h2>The Metrics That Actually Matter</h2>
+<ul>
+<li><strong>Raid participation rate</strong> — what % of members join each raid? Below 15% is a signal problem, not a content problem.</li>
+<li><strong>Returning raider rate</strong> — of members who joined last week's raid, how many came back this week?</li>
+<li><strong>XP distribution curve</strong> — healthy communities have broad distributions, not top-5 capture of everything.</li>
+</ul>
+<span class="big-stat">+847%</span>
+<span class="stat-note">Average engagement increase on first raid tweet for new UTOPIA communities</span>
+`
+  },
+  a2:{
+    cat:'guide',catClass:'tag-guide',catLabel:'GUIDE',
+    date:'January 22, 2025',read:'6 min read',
+    title:'Designing an XP System That Actually Keeps Members Coming Back',
+    body:`
+<p>Most community XP systems follow the same arc: explosive launch week, decent second week, steep drop-off by month two. The reason isn't lack of interest — it's <strong>bad incentive architecture</strong>.</p>
+<h2>The Core Problem: Diminishing Returns</h2>
+<p>When every action gives the same XP forever, early adopters blast through milestones and lose their sense of progression. Late joiners see an insurmountable gap. Both groups disengage for opposite reasons.</p>
+<p>The solution is <strong>layered progression</strong> — multiple reward tracks operating at different timescales, so there's always something meaningful to work toward regardless of when you joined.</p>
+<h2>The Three Timescales of Retention</h2>
+<ul>
+<li><strong>Daily loop (0–24h):</strong> Quest completion, daily ad reward, login streak. Tiny wins that build the habit.</li>
+<li><strong>Weekly arc (1–7 days):</strong> Raid streak, weekly leaderboard rank, weekly milestone bonus. Medium effort, medium reward.</li>
+<li><strong>Season (30–90 days):</strong> Season rank, cumulative tier, exclusive end-of-season rewards. The long-game driver.</li>
+</ul>
+<h2>XP Calibration: The Numbers That Work</h2>
+<div class="tip"><span class="tip-label">RECOMMENDED BASELINE</span>Daily claim: 100 XP · Like: 10 XP · Retweet: 20 XP · Reply: 30 XP · Referral: 100 XP · Quest: 50–150 XP<br/><br/>A fully engaged daily user should earn 200–300 XP/day.</div>
+<h2>The Referral Multiplier</h2>
+<p>Referrals are the highest-leverage action in any community. Consider giving referrers a residual <strong>10% of their referees' XP</strong> earnings for the first 30 days. It creates a compounding incentive to recruit and onboard quality members, not just anyone.</p>
+<h2>Variable Reward Schedules</h2>
+<p>Unpredictable bonus XP (surprise double-XP raids, mystery quest rewards) is more motivating than fixed schedules. It creates the "one more raid" pull that keeps engagement elevated long after the novelty of the platform has faded.</p>
+`
+  },
+  a3:{
+    cat:'web3',catClass:'tag-web3',catLabel:'WEB3',
+    date:'January 18, 2025',read:'7 min read',
+    title:'Memecoin Communities in 2025: Why Engagement Infrastructure Is the New Moat',
+    body:`
+<p>In the 2021 bull run, memecoin success was mostly luck and timing. In 2025, the projects that survive bear markets share one thing: <strong>real community infrastructure</strong>.</p>
+<p>Token price follows narrative. Narrative follows community engagement. And community engagement follows systems — not vibes.</p>
+<h2>The Infrastructure Gap</h2>
+<p>Most memecoin communities operate on raw enthusiasm during launch, then deteriorate into quiet Telegram groups with daily "wen moon" messages. The infrastructure gap is why most communities dissolve within 6 months of launch.</p>
+<blockquote>"The memecoins still talked about in 3 years will be the ones that built real engagement systems, not just hype."</blockquote>
+<h2>What Engagement Infrastructure Actually Means</h2>
+<ul>
+<li><strong>Verified action tracking</strong> — knowing exactly who did what, when, and rewarding it in real time</li>
+<li><strong>XP-based loyalty layers</strong> — giving members a tangible stake beyond token price</li>
+<li><strong>Coordinated campaigns</strong> — raids that hit Twitter's algorithm in the critical engagement windows</li>
+<li><strong>Automated retention tools</strong> — Telegram bots, daily quests, referral systems that work while you sleep</li>
+</ul>
+<h2>Why This Is Now the Moat</h2>
+<p>Engagement infrastructure creates compounding advantages: more engagement → better algorithmic performance → more organic discovery → more members → more engagement. UTOPIA was built to give any memecoin or crypto community access to this infrastructure on day one, without needing a developer team.</p>
+`
+  },
+  a4:{
+    cat:'growth',catClass:'tag-growth',catLabel:'GROWTH',
+    date:'January 14, 2025',read:'9 min read',
+    title:'From 0 to 1,000 Members: The Exact Playbook We Used with UTOPIA Genesis',
+    body:`
+<p>UTOPIA Genesis is our own community — we built it as a live test of the platform, growing it from 0 to 1,047 active members in 47 days. Here's exactly what we did.</p>
+<h2>Days 1–7: Foundation Before Growth</h2>
+<p>We spent the first week configuring before promoting. XP system calibrated, reward catalog populated with real prizes ($10 gift cards, 3-month Pro subscriptions), Telegram bot set up and tested. No one joined in week 1 — and that was intentional.</p>
+<h2>Days 8–14: Seed With Raids</h2>
+<p>First 20 members were personal contacts. We launched 3 raids in week one, gave double XP on every raid to make the first week feel extraordinary. End of week 2: 78 members.</p>
+<h2>Days 15–30: The Referral Engine</h2>
+<p>We made referrals the highest-XP single action (100 XP vs. 30 for a reply). Publicly celebrated new referral milestones in Telegram. Top 3 referrers at month-end earned a free Pro subscription.</p>
+<span class="big-stat">342</span>
+<span class="stat-note">Members by day 30 — driven almost entirely by referral XP incentives</span>
+<h2>Days 31–47: Compound and Retain</h2>
+<p>Added a 7-day streak bonus (500 XP). Ran the first Mega Raid with 3× XP. Launched the public leaderboard embed so members could show off rankings. By day 47: <strong>1,047 members</strong>, 68% active in the past 7 days.</p>
+<h2>The 3 Things That Mattered Most</h2>
+<ul>
+<li><strong>Referral XP weighting</strong> — making referrals the best ROI action drove almost all organic growth</li>
+<li><strong>Public leaderboard</strong> — members shared their rankings unprompted, generating organic awareness</li>
+<li><strong>Consistent raid cadence</strong> — 3 raids/week, same days. Members planned their week around it.</li>
+</ul>
+`
+  },
+  a5:{
+    cat:'guide',catClass:'tag-guide',catLabel:'GUIDE',
+    date:'January 10, 2025',read:'5 min read',
+    title:'Leaderboard Psychology: How to Make Rankings Addictive Without Being Toxic',
+    body:`
+<p>A badly designed leaderboard can destroy your community faster than almost anything else. If the top 5 capture 90% of the XP, everyone else sees a futile race and disengages. But a well-designed ranking system is one of the most powerful retention tools you can build.</p>
+<h2>The Core Principle: Multiple Winning Contexts</h2>
+<p>The fix for a top-5-dominates leaderboard is <strong>multiple ranking contexts</strong> — different ways to win that don't require beating the top players overall:</p>
+<ul>
+<li><strong>Overall rank</strong> — total XP all time (for hardcore long-term players)</li>
+<li><strong>Weekly rank</strong> — resets every Monday, giving any member a shot at recognition</li>
+<li><strong>Raid rank</strong> — per-raid leaderboard where anyone can take first place</li>
+<li><strong>Referral rank</strong> — celebrates the connectors, not just the most active raiders</li>
+</ul>
+<h2>The 80% Rule</h2>
+<p>Design your XP system so 80% of active members can see themselves in the top 50% of at least one leaderboard. This isn't about inflating numbers — it's about giving different player types different paths to recognition.</p>
+<h2>Podium Moments</h2>
+<p>The single most effective retention moment: automatically celebrating when a member breaks into the top 10, or overtakes someone they've been chasing. These moments drive re-engagement from both the climber and the member defending their position.</p>
+<h2>When to Reset</h2>
+<p>Seasonal resets (every 30–90 days) keep the leaderboard fresh. Announce resets early, give the outgoing top 3 a special badge, and use the reset to run a launch-week spike with bonus XP.</p>
+`
+  },
+  a6:{
+    cat:'news',catClass:'tag-news',catLabel:'UPDATE',
+    date:'January 6, 2025',read:'4 min read',
+    title:'Introducing Ad Rewards: How Creators Now Earn Free Subscription Days Through Engagement',
+    body:`
+<p>Today we're shipping the <strong>Ad Rewards system</strong> — a milestone-based loop where creator communities earn free subscription days by hitting cumulative ad view targets. It's a self-funding engine built into the platform.</p>
+<h2>How It Works</h2>
+<p>Creators post a daily ad in their community. When members watch (minimum 25 seconds, active tab required), two things happen simultaneously:</p>
+<ul>
+<li>The creator's community accumulates views toward a milestone counter</li>
+<li>The member earns a bonus XP reward on top of their daily claim</li>
+</ul>
+<h2>The Milestone Tiers</h2>
+<div class="tip"><span class="tip-label">MILESTONE REWARDS</span>
+1,000 views → 3 free subscription days<br/>
+5,000 views → 15 free days<br/>
+25,000 views → 60 free days (2 months free)<br/>
+100,000 views → 180 free days (6 months free)
+</div>
+<h2>Anti-Abuse System</h2>
+<p>We built 7 layers of protection: minimum watch duration, active tab detection, IP rate limiting, per-user daily caps, session ID hashing, device fingerprinting, and behavioral anomaly detection. Gaming it is harder than just using it.</p>
+<h2>Available Now</h2>
+<p>The Ad Rewards system is live for all <strong>Growth and Scale plan</strong> communities. Access it from your dashboard under <code>Ads System → Daily Rewards</code>.</p>
+`
+  },
+  a7:{
+    cat:'strategy',catClass:'tag-strategy',catLabel:'STRATEGY',
+    date:'January 3, 2025',read:'6 min read',
+    title:'Telegram Bot Integration: Automating Community Management Without Losing the Human Touch',
+    body:`
+<p>A well-configured Telegram bot can handle 80% of repetitive community management tasks — XP balance checks, referral link generation, raid alerts, leaderboard updates — while freeing you to focus on the high-value human interactions that actually build loyalty.</p>
+<h2>Setup in 10 Minutes</h2>
+<ul>
+<li>Open Telegram → <code>@BotFather</code> → <code>/newbot</code></li>
+<li>Set a name (e.g. "UTOPIA Community Bot") and username</li>
+<li>Copy the token → Dashboard → Settings → Telegram → paste token</li>
+<li>Set the webhook URL from your UTOPIA backend deployment</li>
+</ul>
+<h2>Commands Members Actually Use</h2>
+<ul>
+<li><code>/xp</code> — Current XP balance and global rank</li>
+<li><code>/referral</code> — Personal tracked invite link</li>
+<li><code>/leaderboard</code> — Current top 10</li>
+<li><code>/quests</code> — Today's available quests and XP values</li>
+<li><code>/raids</code> — Active raids, targets and XP breakdown</li>
+</ul>
+<h2>Automated Notifications That Drive Re-engagement</h2>
+<ul>
+<li><strong>Raid live alert</strong> — fires the instant a new raid is created with tweet URL and XP breakdown</li>
+<li><strong>Rank change alert</strong> — when a member breaks into a new tier or passes someone on the leaderboard</li>
+<li><strong>Daily quest reminder</strong> — sent at a consistent time to members who haven't claimed that day</li>
+<li><strong>Weekly recap</strong> — Sunday summary: XP earned, raids joined, rank movement</li>
+</ul>
+<h2>Keeping the Human Touch</h2>
+<p>Automation handles the operational layer. The community manager's job shifts to what bots can't do: welcoming new members personally, creating context around each raid, celebrating wins publicly. The best communities use the bot to handle volume — and humans to create meaning.</p>
+`
+  }
+};
+
+let activeCat = 'all';
+
+/* ── FILTER ── */
+function setCat(btn) {
+  activeCat = btn.dataset.cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  filterPosts();
+}
+function setCatByKey(cat) {
+  const btn = document.querySelector(`.cat-btn[data-cat="${cat}"]`);
+  if (btn) setCat(btn);
+}
+function filterPosts() {
+  const q = document.getElementById('search-in').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('[data-cat][data-id]');
+  let n = 0;
+  cards.forEach(card => {
+    const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+    const matchQ   = !q || card.textContent.toLowerCase().includes(q);
+    const show = matchCat && matchQ;
+    card.style.display = show ? '' : 'none';
+    if (show) n++;
+  });
+  document.getElementById('empty').style.display = n === 0 ? 'block' : 'none';
+}
+
+/* ── ARTICLE OPEN / CLOSE ── */
+function openArt(id) {
+  const a = ARTS[id];
+  if (!a) return;
+
+  const tagEl = document.getElementById('art-tag');
+  tagEl.innerHTML = `<span class="post-tag ${a.catClass}" style="margin-bottom:18px;display:inline-flex">${a.catLabel}</span>`;
+
+  document.getElementById('art-title').textContent = a.title;
+  document.getElementById('art-meta').textContent  = a.date + '  ·  ' + a.read;
+  document.getElementById('art-body').innerHTML    = a.body;
+
+  const ov = document.getElementById('art-overlay');
+  ov.classList.add('open');
+  ov.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeArt() {
+  document.getElementById('art-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArt(); });
+
+/* ── NEWSLETTER ── */
+function subscribe() {
+  const v = document.getElementById('nl-email').value.trim();
+  if (!v || !v.includes('@')) return;
+  document.getElementById('nl-email').value = '';
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ── REVEAL ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

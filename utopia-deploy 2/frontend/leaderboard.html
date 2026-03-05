@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Leaderboard — UTOPIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070810;--bg2:#0d0f1e;--bg3:#12152a;--border:rgba(99,120,255,0.15);--border2:rgba(99,120,255,0.08);--neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;--text:#e8eaf6;--text2:#8b93c4;--text3:#4a527a;--success:#00c896;--warn:#ffaa00;--gold:#FFD700;--silver:#C0C0C0;--bronze:#CD7F32}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100%}
+html,body{overflow-x:hidden;max-width:100%;width:100%}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(99,120,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(99,120,255,0.04) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0}
+
+/* Header */
+.header{position:relative;z-index:1;padding:40px;text-align:center;border-bottom:1px solid var(--border2)}
+.header-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(99,120,255,0.1) 0%,transparent 70%);pointer-events:none}
+.logo-link{font-size:16px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;display:block;margin-bottom:20px}
+.comm-title{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px;position:relative}
+.comm-subtitle{font-size:13px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1px}
+.season-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:rgba(99,120,255,0.1);border:1px solid rgba(99,120,255,0.2);font-size:11px;font-family:'DM Mono',monospace;color:var(--neon);margin-top:12px;letter-spacing:1px}
+
+/* Community selector */
+.comm-selector{max-width:640px;margin:0 auto;padding:20px 40px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.comm-tab{padding:7px 18px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:600;font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s}
+.comm-tab:hover{border-color:var(--neon);color:var(--neon)}
+.comm-tab.active{border-color:var(--neon);background:rgba(99,120,255,0.12);color:var(--neon)}
+
+/* Podium */
+.podium-section{max-width:640px;margin:0 auto;padding:0 40px 32px;position:relative;z-index:1}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin-bottom:32px;padding-top:20px}
+.podium-item{display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
+.podium-item:nth-child(1){order:2} /* 1st place center */
+.podium-item:nth-child(2){order:1} /* 2nd place left */
+.podium-item:nth-child(3){order:3} /* 3rd place right */
+
+.podium-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;position:relative}
+.podium-item:nth-child(1) .podium-avatar{width:72px;height:72px;font-size:26px;border:3px solid var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.3)}
+.podium-item:nth-child(2) .podium-avatar{width:56px;height:56px;font-size:20px;border:2px solid var(--silver)}
+.podium-item:nth-child(3) .podium-avatar{width:56px;height:56px;font-size:20px;border:2px solid var(--bronze)}
+
+.podium-crown{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:20px}
+.podium-name{font-size:13px;font-weight:700;text-align:center;color:var(--text)}
+.podium-xp{font-size:13px;font-weight:800;font-family:'DM Mono',monospace;text-align:center}
+.podium-item:nth-child(1) .podium-xp{color:var(--gold)}
+.podium-item:nth-child(2) .podium-xp{color:var(--silver)}
+.podium-item:nth-child(3) .podium-xp{color:var(--bronze)}
+
+.podium-base{border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.3);width:88px}
+.podium-item:nth-child(1) .podium-base{height:80px;background:linear-gradient(0deg,rgba(255,215,0,0.2),rgba(255,215,0,0.05));border:1px solid rgba(255,215,0,0.3)}
+.podium-item:nth-child(2) .podium-base{height:56px;background:linear-gradient(0deg,rgba(192,192,192,0.15),rgba(192,192,192,0.05));border:1px solid rgba(192,192,192,0.2)}
+.podium-item:nth-child(3) .podium-base{height:44px;background:linear-gradient(0deg,rgba(205,127,50,0.15),rgba(205,127,50,0.05));border:1px solid rgba(205,127,50,0.2)}
+
+/* Full leaderboard */
+.lb-section{max-width:640px;margin:0 auto;padding:0 40px 60px;position:relative;z-index:1}
+.lb-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:0 4px}
+.lb-header-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace}
+
+.lb-row{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;transition:background .15s;margin-bottom:2px}
+.lb-row:hover{background:rgba(99,120,255,0.05)}
+.lb-row.me{background:rgba(99,120,255,0.08);border:1px solid rgba(99,120,255,0.15)}
+.lb-rank-num{width:28px;text-align:center;font-size:13px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text3);flex-shrink:0}
+.lb-row-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.lb-info{flex:1;min-width:0}
+.lb-info-name{font-size:14px;font-weight:700;color:var(--text)}
+.lb-info-sub{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:1px}
+.lb-xp-col{text-align:right}
+.lb-xp-num{font-size:15px;font-weight:800;font-family:'DM Mono',monospace;color:var(--neon)}
+.lb-xp-delta{font-size:11px;font-family:'DM Mono',monospace;color:var(--success);margin-top:1px}
+
+/* Progress bar per row */
+.lb-bar-wrap{position:relative;height:3px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-top:4px}
+.lb-bar-fill{position:absolute;top:0;left:0;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--neon),var(--neon2))}
+
+/* Stats under leaderboard */
+.lb-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.lb-stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.lb-stat-num{font-size:22px;font-weight:800;font-family:'DM Mono',monospace;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lb-stat-label{font-size:10px;letter-spacing:1.5px;color:var(--text3);margin-top:4px}
+
+/* Footer bar */
+.footer-bar{border-top:1px solid var(--border2);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.powered{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.powered a{color:var(--neon);text-decoration:none}
+.join-btn{padding:8px 18px;border-radius:8px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;color:#fff;font-size:13px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;text-decoration:none}
+
+/* Embed mode: no header/footer */
+body.embed-mode .header{padding:16px;text-align:left}
+body.embed-mode .header .logo-link{display:none}
+body.embed-mode .footer-bar{display:none}
+body.embed-mode .comm-selector{padding:8px 16px}
+body.embed-mode .podium-section{padding:0 16px 16px}
+body.embed-mode .lb-section{padding:0 16px 20px}
+
+@media(max-width:600px){
+  .header{padding:24px 20px}
+  .comm-selector{padding:12px 20px}
+  .podium-section{padding:0 20px 20px}
+  .lb-section{padding:0 20px 40px}
+  .lb-stats{grid-template-columns:1fr 1fr}
+  .footer-bar{padding:14px 20px;flex-direction:column;gap:10px;text-align:center}
+}
+html,body{overflow-x:hidden;max-width:100%;}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-glow"></div>
+  <a href="index.html" style="position:relative;z-index:2;font-size:15px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,#6378ff,#00e5ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;display:inline-block;margin-bottom:20px">UTOPIA</a>
+  <div class="comm-title" id="lb-title">Community Leaderboard</div>
+  <div class="comm-subtitle">XP RANKINGS · SEASON 1</div>
+  <div class="season-badge">🏆 Season 1 ends Feb 28, 2025</div>
+</div>
+
+<!-- Community Selector -->
+<div class="comm-selector">
+  <button class="comm-tab active" onclick="selectCommunity(this,'UTOPIA Genesis')">UTOPIA Genesis</button>
+  <button class="comm-tab" onclick="selectCommunity(this,'Blockchain Raiders')">Blockchain Raiders</button>
+  <button class="comm-tab" onclick="selectCommunity(this,'Meme Lords')">Meme Lords</button>
+</div>
+
+<!-- Stats -->
+<div class="lb-section" style="padding-bottom:0">
+  <div class="lb-stats">
+    <div class="lb-stat"><div class="lb-stat-num" id="s-members">247</div><div class="lb-stat-label">MEMBERS</div></div>
+    <div class="lb-stat"><div class="lb-stat-num" id="s-xp">84,200</div><div class="lb-stat-label">XP DISTRIBUTED</div></div>
+    <div class="lb-stat"><div class="lb-stat-num" id="s-raids">12</div><div class="lb-stat-label">RAIDS COMPLETED</div></div>
+  </div>
+</div>
+
+<!-- Podium -->
+<div class="podium-section">
+  <div class="podium" id="podium"></div>
+</div>
+
+<!-- Full Leaderboard -->
+<div class="lb-section">
+  <div class="lb-header">
+    <div class="lb-header-label">RANK · MEMBER</div>
+    <div class="lb-header-label">XP EARNED</div>
+  </div>
+  <div id="lb-list"></div>
+  <div style="text-align:center;margin-top:20px">
+    <a href="dashboard.html" style="font-size:13px;color:var(--neon);font-family:'DM Mono',monospace;text-decoration:none">Join to claim your spot on the leaderboard →</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer-bar">
+  <div class="powered">Powered by <a href="index.html">UTOPIA</a> · Community Engagement Platform</div>
+  <a href="dashboard.html" class="join-btn">Join Community →</a>
+</div>
+
+<script>
+const COMMUNITIES = {
+  'UTOPIA Genesis': {
+    members: 247, xp: 84200, raids: 12,
+    data: [
+      {username:'CryptoNaut',xp:1250,twitter:'@cryptonaut',delta:'+85 today',color:'#6378ff'},
+      {username:'BlockchainWhale',xp:980,twitter:'@solwhale',delta:'+45 today',color:'#00c896'},
+      {username:'MemeKing99',xp:756,twitter:'@memeking',delta:'+30 today',color:'#a855f7'},
+      {username:'RaidBot',xp:640,twitter:'@raidbot',delta:'+20 today',color:'#ff6b6b'},
+      {username:'Galaxia',xp:510,twitter:'@galaxia',delta:'+15 today',color:'#00e5ff'},
+      {username:'BlockHead',xp:420,twitter:'@blockhead',delta:'+10 today',color:'#6378ff'},
+      {username:'DegenMax',xp:380,twitter:'@degenmax',delta:'+5 today',color:'#a855f7'},
+      {username:'CryptoFan',xp:290,twitter:'@cryptofan',delta:'',color:'#00c896'},
+      {username:'Raider99',xp:210,twitter:'@raider99',delta:'',color:'#ff6b6b'},
+      {username:'SolKing',xp:180,twitter:'@solking',delta:'',color:'#ffaa00'}
+    ]
+  },
+  'Blockchain Raiders': {
+    members: 89, xp: 32400, raids: 5,
+    data: [
+      {username:'BlockchainWhale',xp:1890,twitter:'@solwhale',delta:'+120 today',color:'#00c896'},
+      {username:'SolKing',xp:1340,twitter:'@solking',delta:'+60 today',color:'#ffaa00'},
+      {username:'RaidBot',xp:980,twitter:'@raidbot',delta:'+40 today',color:'#ff6b6b'},
+      {username:'BlockHead',xp:720,twitter:'@blockhead',delta:'+25 today',color:'#6378ff'},
+      {username:'Galaxia',xp:580,twitter:'@galaxia',delta:'',color:'#00e5ff'}
+    ]
+  },
+  'Meme Lords': {
+    members: 412, xp: 128000, raids: 2,
+    data: [
+      {username:'MemeKing99',xp:3200,twitter:'@memeking',delta:'+200 today',color:'#a855f7'},
+      {username:'DegenMax',xp:2100,twitter:'@degenmax',delta:'+90 today',color:'#6378ff'},
+      {username:'CryptoNaut',xp:1800,twitter:'@cryptonaut',delta:'+70 today',color:'#ff6b6b'},
+      {username:'Raider99',xp:1200,twitter:'@raider99',delta:'+50 today',color:'#00c896'},
+      {username:'CryptoFan',xp:980,twitter:'@cryptofan',delta:'+30 today',color:'#ffaa00'},
+      {username:'SolKing',xp:760,twitter:'@solking',delta:'+20 today',color:'#00e5ff'}
+    ]
+  }
+};
+
+let currentComm = 'UTOPIA Genesis';
+
+function selectCommunity(el, name) {
+  document.querySelectorAll('.comm-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  currentComm = name;
+  render(name);
+}
+
+function render(name) {
+  const c = COMMUNITIES[name];
+  document.getElementById('lb-title').textContent = `${name}`;
+  document.getElementById('s-members').textContent = c.members.toLocaleString();
+  document.getElementById('s-xp').textContent = c.xp.toLocaleString();
+  document.getElementById('s-raids').textContent = c.raids;
+
+  const top3 = c.data.slice(0,3);
+  const maxXP = c.data[0].xp;
+
+  // Podium (order: 2nd, 1st, 3rd)
+  const podiumOrder = [top3[1], top3[0], top3[2]].filter(Boolean);
+  const positions = ['2nd','1st','3rd'];
+  const rankLabels = [2,1,3];
+  document.getElementById('podium').innerHTML = podiumOrder.map((p, i) => {
+    const realPos = top3.indexOf(p);
+    return `
+      <div class="podium-item">
+        <div class="podium-avatar" style="background:linear-gradient(135deg,${p.color},${p.color}88)">
+          ${realPos === 0 ? '<div class="podium-crown">👑</div>' : ''}
+          ${p.username[0]}
+        </div>
+        <div class="podium-name">${p.username}</div>
+        <div class="podium-xp">${p.xp.toLocaleString()} XP</div>
+        <div class="podium-base">${realPos+1}</div>
+      </div>`;
+  }).join('');
+
+  // Full list (starting from 4th)
+  document.getElementById('lb-list').innerHTML = c.data.map((p, i) => `
+    <div class="lb-row">
+      <div class="lb-rank-num">${['🥇','🥈','🥉'][i] || `#${i+1}`}</div>
+      <div class="lb-row-avatar" style="background:linear-gradient(135deg,${p.color},${p.color}66)">${p.username[0]}</div>
+      <div class="lb-info">
+        <div class="lb-info-name">${p.username}</div>
+        <div class="lb-bar-wrap"><div class="lb-bar-fill" style="width:${Math.round(p.xp/maxXP*100)}%"></div></div>
+        <div class="lb-info-sub">${p.twitter}</div>
+      </div>
+      <div class="lb-xp-col">
+        <div class="lb-xp-num">${p.xp.toLocaleString()}</div>
+        ${p.delta ? `<div class="lb-xp-delta">${p.delta}</div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+// Check for embed mode via URL param
+if(new URLSearchParams(location.search).get('embed') === '1') {
+  document.body.classList.add('embed-mode');
+}
+
+// Check for community param
+const commParam = new URLSearchParams(location.search).get('community');
+if(commParam && COMMUNITIES[commParam]) {
+  render(commParam);
+} else {
+  render('UTOPIA Genesis');
+}
+</script>
+</body>
+</html>

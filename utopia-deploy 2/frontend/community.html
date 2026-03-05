@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UTOPIA Genesis — Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#05060f;--bg2:#0a0c1a;--bg3:#0f1225;--bg4:#141830;--border:rgba(99,120,255,0.12);--border2:rgba(99,120,255,0.06);--border3:rgba(99,120,255,0.22);--neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;--neon4:#ff6bcd;--text:#eceef8;--text2:#8b93c4;--text3:#3d4570;--success:#00c896;--warn:#ffaa00;--danger:#ff4466;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(99,120,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(99,120,255,0.025) 1px,transparent 1px);background-size:64px 64px;pointer-events:none;z-index:0}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;background:rgba(5,6,15,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2)}
+.t-logo{font-size:15px;font-weight:800;letter-spacing:3px;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:9px;font-size:13px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:all .2s;text-decoration:none;border:none}
+.btn-ghost{background:transparent;border:1px solid var(--border3);color:var(--text2)}
+.btn-ghost:hover{border-color:var(--neon);color:var(--text)}
+.btn-primary{background:linear-gradient(135deg,var(--neon),var(--neon3));color:#fff;box-shadow:0 4px 20px rgba(99,120,255,0.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,120,255,0.35)}
+
+/* hero */
+.hero{position:relative;z-index:1;padding:72px 48px 56px;border-bottom:1px solid var(--border2);overflow:hidden}
+.hero-glow{position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(99,120,255,0.08),transparent 60%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(168,85,247,0.06),transparent 60%);pointer-events:none}
+.comm-header{display:flex;align-items:center;gap:24px;margin-bottom:32px}
+.comm-avatar{width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,var(--neon),var(--neon2));display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;border:2px solid rgba(99,120,255,0.3)}
+.comm-info{flex:1}
+.comm-name{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:4px}
+.comm-slug{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)}
+.live-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.2);font-size:11px;font-family:'DM Mono',monospace;color:var(--success);margin-top:8px}
+.live-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success);animation:blk 2s infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.2}}
+.stats-row{display:flex;gap:40px;flex-wrap:wrap}
+.comm-stat-num{font-size:28px;font-weight:800;font-family:'DM Mono',monospace;background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.comm-stat-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1.5px;margin-top:3px}
+
+/* layout */
+.main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:40px 48px;display:grid;grid-template-columns:1fr 320px;gap:28px}
+.col-left{display:flex;flex-direction:column;gap:20px}
+.col-right{display:flex;flex-direction:column;gap:20px}
+
+/* card */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
+.card-head{padding:18px 22px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.card-tag{font-size:9px;letter-spacing:2.5px;color:var(--neon);font-family:'DM Mono',monospace;margin-bottom:3px}
+.card-title{font-size:15px;font-weight:700}
+.card-body{padding:20px 22px}
+
+/* raid */
+.raid{padding:18px;background:var(--bg3);border:1px solid var(--border2);border-radius:13px;margin-bottom:12px;cursor:pointer;transition:all .2s}
+.raid:last-child{margin-bottom:0}
+.raid:hover{border-color:var(--border3);transform:translateY(-1px)}
+.raid-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.raid-title{font-size:14px;font-weight:700;flex:1;padding-right:10px;line-height:1.4}
+.raid-status{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;font-family:'DM Mono',monospace;white-space:nowrap}
+.rs-live{background:rgba(0,200,150,0.1);color:var(--success);border:1px solid rgba(0,200,150,.2)}
+.raid-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pill{padding:3px 9px;border-radius:20px;font-size:11px;font-family:'DM Mono',monospace;background:var(--bg4);border:1px solid var(--border2);color:var(--text2)}
+.pill b{color:var(--neon2)}
+.prog-bar{height:5px;background:var(--bg4);border-radius:100px;overflow:hidden;margin-bottom:8px}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--neon),var(--neon2))}
+.prog-info{display:flex;justify-content:space-between;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3)}
+.join-btn{margin-top:12px;padding:9px;width:100%;border-radius:9px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;color:#fff;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.join-btn:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(99,120,255,.3)}
+
+/* leaderboard */
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;transition:background .15s}
+.lb-row:hover{background:rgba(99,120,255,0.04)}
+.lb-rank{width:24px;text-align:center;font-size:12px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text3);flex-shrink:0}
+.lb-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.lb-name{flex:1;font-size:13px;font-weight:600}
+.lb-xp{font-size:13px;font-weight:800;font-family:'DM Mono',monospace;color:var(--neon)}
+.lb-bar{height:2px;background:var(--border2);border-radius:100px;overflow:hidden;margin-top:3px}
+.lb-bar-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:100px}
+
+/* quests */
+.quest-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border2)}
+.quest-row:last-child{border-bottom:none}
+.q-icon{width:34px;height:34px;border-radius:9px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.q-info{flex:1}
+.q-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.q-desc{font-size:11px;color:var(--text2)}
+.q-xp{font-size:13px;font-weight:800;font-family:'DM Mono',monospace;color:var(--neon2)}
+
+/* join panel */
+.join-panel{background:linear-gradient(135deg,rgba(99,120,255,0.08),rgba(168,85,247,0.05));border:1px solid rgba(99,120,255,0.2);border-radius:18px;padding:28px}
+.join-title{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+.join-sub{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:20px}
+.join-big-btn{width:100%;padding:14px;border-radius:13px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;color:#fff;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.join-big-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,120,255,.35)}
+.join-note{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);text-align:center}
+
+/* info rows */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border2)}
+.info-row:last-child{border-bottom:none}
+.info-label{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)}
+.info-val{font-size:13px;font-weight:700;color:var(--text)}
+
+@media(max-width:768px){.topbar{padding:0 20px}.hero{padding:48px 20px 36px}.main{padding:24px 20px;grid-template-columns:1fr}.stats-row{gap:24px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="t-logo">UTOPIA</a>
+  <div style="display:flex;gap:10px">
+    <a href="dashboard.html" class="btn btn-ghost">Sign in</a>
+    <a href="dashboard.html" class="btn btn-primary">Join community →</a>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div style="position:relative;z-index:1;max-width:1000px;margin:0 auto">
+    <div class="comm-header">
+      <div class="comm-avatar">⚡</div>
+      <div class="comm-info">
+        <div class="comm-name">UTOPIA Genesis</div>
+        <div class="comm-slug">utopia.io/genesis</div>
+        <div class="live-badge">247 members · ACTIVE</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="leaderboard.html" class="btn btn-ghost">Leaderboard</a>
+        <a href="rewards.html" class="btn btn-ghost">Rewards</a>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div><div class="comm-stat-num">247</div><div class="comm-stat-label">MEMBERS</div></div>
+      <div><div class="comm-stat-num">84.2k</div><div class="comm-stat-label">XP DISTRIBUTED</div></div>
+      <div><div class="comm-stat-num">12</div><div class="comm-stat-label">RAIDS RUN</div></div>
+      <div><div class="comm-stat-num">7</div><div class="comm-stat-label">REWARDS CLAIMED</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="col-left">
+
+    <!-- Active Raids -->
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-tag">LIVE NOW</div><div class="card-title">Active Raids</div></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-family:'DM Mono',monospace;color:var(--success)"><span style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block;animation:blk 2s infinite"></span>2 active</div>
+      </div>
+      <div class="card-body">
+        <div class="raid">
+          <div class="raid-header">
+            <div class="raid-title">$TOKEN launch announcement — like, RT and reply to earn XP!</div>
+            <div class="raid-status rs-live">● LIVE</div>
+          </div>
+          <div class="raid-pills"><div class="pill">Like → <b>+15 XP</b></div><div class="pill">RT → <b>+25 XP</b></div><div class="pill">Reply → <b>+10 XP</b></div></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:84%"></div></div>
+          <div class="prog-info"><span>847 / 1,000 engagements</span><span style="color:var(--success)">84% complete</span></div>
+          <button class="join-btn" onclick="joinRaid(this)">Join Raid →</button>
+        </div>
+        <div class="raid">
+          <div class="raid-header">
+            <div class="raid-title">Community AMA thread — reply with your questions!</div>
+            <div class="raid-status rs-live">● LIVE</div>
+          </div>
+          <div class="raid-pills"><div class="pill">Reply → <b>+30 XP</b></div><div class="pill">Like → <b>+10 XP</b></div></div>
+          <div class="prog-bar"><div class="prog-fill" style="width:42%"></div></div>
+          <div class="prog-info"><span>210 / 500 engagements</span><span style="color:var(--warn)">42%</span></div>
+          <button class="join-btn" onclick="joinRaid(this)">Join Raid →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quests -->
+    <div class="card">
+      <div class="card-head"><div><div class="card-tag">EARN XP</div><div class="card-title">Available Quests</div></div></div>
+      <div class="card-body">
+        <div class="quest-row"><div class="q-icon">⚔</div><div class="q-info"><div class="q-name">Join a raid</div><div class="q-desc">Participate in any active campaign</div></div><div class="q-xp">+50 XP</div></div>
+        <div class="quest-row"><div class="q-icon">👥</div><div class="q-info"><div class="q-name">Refer a member</div><div class="q-desc">Share your invite link</div></div><div class="q-xp">+100 XP</div></div>
+        <div class="quest-row"><div class="q-icon">🏆</div><div class="q-info"><div class="q-name">Top 3 in raid</div><div class="q-desc">Finish in the top 3</div></div><div class="q-xp">+75 XP</div></div>
+        <div class="quest-row"><div class="q-icon">📣</div><div class="q-info"><div class="q-name">Share leaderboard</div><div class="q-desc">Post your ranking on Twitter</div></div><div class="q-xp">+15 XP</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-right">
+
+    <!-- Join panel -->
+    <div class="join-panel">
+      <div class="join-title">Join UTOPIA Genesis</div>
+      <div class="join-sub">Earn XP, climb the leaderboard and win real rewards by engaging with the community.</div>
+      <button class="join-big-btn" onclick="window.location='dashboard.html'">Join Community →</button>
+      <div class="join-note">Free forever · No credit card required</div>
+    </div>
+
+    <!-- Leaderboard mini -->
+    <div class="card">
+      <div class="card-head"><div><div class="card-tag">TOP MEMBERS</div><div class="card-title">Leaderboard</div></div><a href="leaderboard.html" style="font-size:11px;color:var(--neon);font-family:'DM Mono',monospace;text-decoration:none">View all →</a></div>
+      <div class="card-body" style="padding:12px 14px">
+        <div class="lb-row"><div class="lb-rank" style="color:#ffd700">🥇</div><div class="lb-av" style="background:linear-gradient(135deg,#6378ff,#00e5ff)">C</div><div class="lb-name">CryptoNaut<div class="lb-bar"><div class="lb-bar-fill" style="width:100%"></div></div></div><div class="lb-xp">1,250</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:#c0c0c0">🥈</div><div class="lb-av" style="background:linear-gradient(135deg,#00c896,#00e5ff)">B</div><div class="lb-name">BlockWhale<div class="lb-bar"><div class="lb-bar-fill" style="width:78%"></div></div></div><div class="lb-xp">980</div></div>
+        <div class="lb-row"><div class="lb-rank" style="color:#cd7f32">🥉</div><div class="lb-av" style="background:linear-gradient(135deg,#a855f7,#ff6bcd)">M</div><div class="lb-name">MemeKing<div class="lb-bar"><div class="lb-bar-fill" style="width:60%"></div></div></div><div class="lb-xp">756</div></div>
+        <div class="lb-row"><div class="lb-rank">#4</div><div class="lb-av" style="background:linear-gradient(135deg,#ff6b6b,#ffaa00)">R</div><div class="lb-name">RaidBot<div class="lb-bar"><div class="lb-bar-fill" style="width:51%"></div></div></div><div class="lb-xp">640</div></div>
+        <div class="lb-row"><div class="lb-rank">#5</div><div class="lb-av" style="background:linear-gradient(135deg,#6378ff,#a855f7)">G</div><div class="lb-name">Galaxia<div class="lb-bar"><div class="lb-bar-fill" style="width:40%"></div></div></div><div class="lb-xp">510</div></div>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Community Info</div></div>
+      <div class="card-body">
+        <div class="info-row"><div class="info-label">CREATED</div><div class="info-val">Jan 2025</div></div>
+        <div class="info-row"><div class="info-label">PLATFORMS</div><div class="info-val">X / Twitter</div></div>
+        <div class="info-row"><div class="info-label">REWARD TYPE</div><div class="info-val">Cash + Digital</div></div>
+        <div class="info-row"><div class="info-label">SEASON</div><div class="info-val">Season 1</div></div>
+        <div class="info-row"><div class="info-label">POWERED BY</div><div class="info-val"><a href="index.html" style="color:var(--neon);text-decoration:none">UTOPIA Platform</a></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function joinRaid(btn) {
+  btn.textContent = '✓ Joined — complete actions on Twitter!';
+  btn.style.background = 'rgba(0,200,150,0.15)';
+  btn.style.border = '1px solid rgba(0,200,150,0.3)';
+  btn.style.color = 'var(--success)';
+}
+</script>
+</body>
+</html>

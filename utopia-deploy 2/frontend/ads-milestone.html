@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>UTOPIA — Milestones</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#070810;--bg2:#0d0f1e;--bg3:#12152a;
+  --border:rgba(99,120,255,0.15);--border2:rgba(99,120,255,0.08);
+  --neon:#6378ff;--neon2:#00e5ff;--neon3:#a855f7;
+  --text:#e8eaf6;--text2:#8b93c4;--text3:#4a527a;
+  --success:#00c896;--warn:#ffaa00;--danger:#ff4466;
+  --gold:#ffc107;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;max-width:100%;width:100%}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:0;background-image:
+  linear-gradient(rgba(99,120,255,0.04) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(99,120,255,0.04) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border2);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50}
+.sidebar-logo{padding:28px 24px 24px;border-bottom:1px solid var(--border2)}
+.logo-badge{font-size:20px;font-weight:800;letter-spacing:3px;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-sub{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:1px;margin-top:2px}
+.nav-section{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-label{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;padding:0 12px 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;
+  cursor:pointer;transition:all .2s;font-size:14px;font-weight:600;
+  color:var(--text2);margin-bottom:2px;position:relative;text-decoration:none}
+.nav-item:hover{background:var(--border2);color:var(--text)}
+.nav-item.active{background:rgba(99,120,255,0.15);color:var(--neon)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:60%;background:var(--neon);border-radius:0 3px 3px 0}
+.nav-icon{font-size:16px;width:20px;text-align:center}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border2)}
+.user-mini{display:flex;align-items:center;gap:10px}
+.user-avatar{width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--neon),var(--neon3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.user-mini-name{font-size:13px;font-weight:700;color:var(--text)}
+.user-mini-xp{font-size:11px;color:var(--neon);font-family:'DM Mono',monospace}
+
+.main{margin-left:240px;flex:1;min-height:100vh;padding:40px}
+
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:40px}
+.topbar-title{font-size:26px;font-weight:800;letter-spacing:-0.5px}
+.topbar-sub{font-size:13px;color:var(--text2);font-family:'DM Mono',monospace;margin-top:4px}
+.community-pill{display:flex;align-items:center;gap:8px;background:var(--bg2);
+  border:1px solid var(--border2);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600}
+.comm-dot{width:8px;height:8px;border-radius:50%;background:var(--success);animation:blink 1.5s ease-in-out infinite}
+
+/* ── HERO PROGRESS ── */
+.hero-progress{background:var(--bg2);border:1px solid var(--border);border-radius:24px;
+  padding:36px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero-progress::before{content:'';position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,120,255,0.06),transparent 70%);pointer-events:none}
+.hp-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:20px}
+.hp-left{}
+.hp-tag{font-size:10px;letter-spacing:2px;color:var(--neon);font-family:'DM Mono',monospace;margin-bottom:8px}
+.hp-title{font-size:22px;font-weight:800;margin-bottom:6px}
+.hp-sub{font-size:13px;color:var(--text2);line-height:1.6}
+.hp-right{text-align:right;flex-shrink:0}
+.hp-pct{font-size:52px;font-weight:800;font-family:'DM Mono',monospace;line-height:1;
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hp-pct-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:4px}
+
+/* Big progress bar */
+.big-bar-wrap{margin-bottom:20px}
+.big-bar-labels{display:flex;justify-content:space-between;margin-bottom:10px}
+.big-bar-label{font-size:12px;font-family:'DM Mono',monospace;color:var(--text3)}
+.big-bar-val{font-size:12px;font-family:'DM Mono',monospace;font-weight:700;color:var(--text)}
+.big-bar{height:12px;background:var(--bg3);border-radius:100px;overflow:hidden;position:relative}
+.big-bar-fill{height:100%;border-radius:100px;position:relative;
+  background:linear-gradient(90deg,var(--neon),var(--neon2),var(--neon3));
+  transition:width 1.2s cubic-bezier(0.34,1.0,0.64,1)}
+.big-bar-fill::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;background:#fff;border-radius:50%;
+  box-shadow:0 0 0 3px var(--neon),0 0 16px var(--neon)}
+
+/* milestone markers */
+.bar-markers{position:relative;height:20px;margin-top:8px}
+.bar-marker{position:absolute;transform:translateX(-50%);text-align:center}
+.bar-marker-tick{width:1px;height:8px;background:var(--border);margin:0 auto 3px}
+.bar-marker-label{font-size:9px;font-family:'DM Mono',monospace;color:var(--text3);white-space:nowrap}
+
+.hp-counts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hp-count{text-align:center;padding:16px;background:var(--bg3);border-radius:12px;border:1px solid var(--border2)}
+.hp-count-val{font-size:26px;font-weight:800;font-family:'DM Mono',monospace;color:var(--text)}
+.hp-count-val.neon{background:linear-gradient(135deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hp-count-val.green{color:var(--success)}
+.hp-count-val.gold{color:var(--gold)}
+.hp-count-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:5px;letter-spacing:1px}
+
+/* ── GRID ── */
+.page-grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+.left-col{display:flex;flex-direction:column;gap:20px}
+.right-col{display:flex;flex-direction:column;gap:20px}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;overflow:hidden}
+.card-head{padding:20px 24px;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:15px;font-weight:700}
+.card-tag{font-size:10px;letter-spacing:2px;color:var(--neon);font-family:'DM Mono',monospace}
+.card-body{padding:24px}
+
+/* ── TIER LADDER ── */
+.tier-ladder{display:flex;flex-direction:column;gap:0}
+.tier-item{display:flex;align-items:center;gap:20px;padding:20px 24px;
+  border-bottom:1px solid var(--border2);position:relative;transition:background .2s}
+.tier-item:last-child{border-bottom:none}
+.tier-item:hover{background:var(--bg3)}
+.tier-item.current-tier{background:rgba(99,120,255,0.06)}
+.tier-item.completed-tier{opacity:.65}
+
+.tier-icon-wrap{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;flex-shrink:0}
+.tier-icon-wrap.bronze{background:rgba(205,127,50,0.15);border:1px solid rgba(205,127,50,0.3)}
+.tier-icon-wrap.silver{background:rgba(192,192,192,0.12);border:1px solid rgba(192,192,192,0.25)}
+.tier-icon-wrap.gold{background:rgba(255,193,7,0.12);border:1px solid rgba(255,193,7,0.3)}
+.tier-icon-wrap.platinum{background:rgba(99,120,255,0.12);border:1px solid var(--border)}
+
+.tier-info{flex:1;min-width:0}
+.tier-name{font-size:15px;font-weight:700;margin-bottom:3px}
+.tier-desc{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
+
+.tier-reward{text-align:center;flex-shrink:0}
+.tier-reward-days{font-size:28px;font-weight:800;font-family:'DM Mono',monospace;line-height:1}
+.tier-reward-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:2px}
+
+.tier-status-badge{font-size:10px;font-family:'DM Mono',monospace;padding:4px 10px;border-radius:20px;font-weight:700;white-space:nowrap}
+.badge-done{background:rgba(0,200,150,0.12);color:var(--success);border:1px solid rgba(0,200,150,0.2)}
+.badge-current{background:rgba(99,120,255,0.12);color:var(--neon);border:1px solid var(--border)}
+.badge-locked{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+
+.tier-mini-bar{height:3px;background:var(--bg3);border-radius:100px;overflow:hidden;margin-top:10px}
+.tier-mini-fill{height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));border-radius:100px;transition:width .8s ease}
+
+/* ── HISTORY ── */
+.history-list{display:flex;flex-direction:column;gap:0}
+.history-item{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--border2)}
+.history-item:last-child{border-bottom:none}
+.hi-icon{width:36px;height:36px;border-radius:10px;background:rgba(0,200,150,0.1);
+  border:1px solid rgba(0,200,150,0.2);display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0}
+.hi-info{flex:1}
+.hi-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.hi-meta{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
+.hi-reward{text-align:right}
+.hi-days{font-size:18px;font-weight:800;font-family:'DM Mono',monospace;color:var(--success)}
+.hi-date{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-top:2px}
+
+/* ── SUB STATUS ── */
+.sub-status-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.sub-tag{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:14px}
+.sub-plan-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sub-plan-name{font-size:18px;font-weight:800}
+.sub-plan-badge{font-size:10px;font-family:'DM Mono',monospace;padding:4px 10px;border-radius:20px;
+  background:rgba(99,120,255,0.12);color:var(--neon);border:1px solid var(--border)}
+.sub-expiry-wrap{background:var(--bg3);border-radius:10px;padding:14px;margin-bottom:14px}
+.sub-expiry-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-bottom:6px}
+.sub-expiry-date{font-size:15px;font-weight:700;color:var(--text);margin-bottom:2px}
+.sub-expiry-days{font-size:12px;font-family:'DM Mono',monospace;color:var(--success)}
+.sub-bar{height:4px;background:var(--bg);border-radius:100px;overflow:hidden;margin-top:10px}
+.sub-bar-fill{height:100%;background:linear-gradient(90deg,var(--success),var(--neon2));border-radius:100px}
+.sub-info-row{display:flex;justify-content:space-between;padding:8px 0;
+  border-top:1px solid var(--border2);font-size:12px}
+.sub-info-label{color:var(--text2)}
+.sub-info-val{font-family:'DM Mono',monospace;color:var(--text);font-weight:700}
+
+/* ── MATH CARD ── */
+.math-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+.math-tag{font-size:10px;letter-spacing:2px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:14px}
+.math-formula{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;
+  padding:14px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;color:var(--text2);margin-bottom:14px}
+.math-formula .hl{color:var(--neon2)}
+.math-formula .val{color:var(--neon)}
+.math-row{display:flex;justify-content:space-between;padding:8px 0;
+  border-top:1px solid var(--border2);font-size:12px}
+.math-label{color:var(--text2)}
+.math-val{font-family:'DM Mono',monospace;color:var(--text);font-weight:700}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:300;padding:14px 20px;border-radius:12px;
+  font-size:13px;font-weight:600;max-width:320px;transform:translateY(80px);opacity:0;
+  transition:all .3s;font-family:'DM Mono',monospace}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:#00c89620;border:1px solid #00c89640;color:var(--success)}
+
+/* ── MILESTONE TRIGGERED POPUP ── */
+.milestone-popup{position:fixed;inset:0;z-index:200;display:flex;align-items:center;
+  justify-content:center;background:rgba(7,8,16,0.85);backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;transition:opacity .3s}
+.milestone-popup.visible{opacity:1;pointer-events:all}
+.milestone-box{background:var(--bg2);border:1px solid var(--border);border-radius:28px;
+  padding:52px 40px;text-align:center;max-width:440px;
+  animation:popIn .5s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes popIn{from{transform:scale(0.7);opacity:0}to{transform:scale(1);opacity:1}}
+.milestone-glow{font-size:64px;margin-bottom:16px;animation:float 2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.milestone-title{font-size:26px;font-weight:800;margin-bottom:8px}
+.milestone-sub{font-size:14px;color:var(--text2);margin-bottom:28px;line-height:1.6}
+.milestone-reward-chip{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;
+  background:rgba(0,200,150,0.1);border:1px solid rgba(0,200,150,0.3);border-radius:12px;
+  font-size:16px;font-weight:700;color:var(--success);margin-bottom:28px}
+.milestone-close{padding:14px 36px;background:linear-gradient(135deg,var(--success),var(--neon2));
+  border:none;border-radius:14px;color:#111;font-family:'Syne',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+.milestone-close:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,200,150,.3)}
+
+/* confetti */
+.confetti-container{position:fixed;inset:0;pointer-events:none;z-index:201;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;
+  animation:confettiFall linear forwards}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg);opacity:1}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}.main{margin-left:0}
+  .page-grid{grid-template-columns:1fr}.hp-counts{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">UTOPIA</div>
+      <div class="logo-sub">COMMUNITY PLATFORM</div>
+    </div>
+    <nav class="nav-section">
+      <div class="nav-label">MAIN</div>
+      <a class="nav-item" href="dashboard.html"><span class="nav-icon">◈</span> Dashboard</a>
+      <a class="nav-item" href="community.html"><span class="nav-icon">◉</span> Communities</a>
+      <a class="nav-item" href="leaderboard.html"><span class="nav-icon">▲</span> Leaderboard</a>
+      <a class="nav-item" href="ads-user.html"><span class="nav-icon">◆</span> Daily Rewards</a>
+      <a class="nav-item" href="rewards.html"><span class="nav-icon">◎</span> Rewards Store</a>
+      <div class="nav-label" style="margin-top:16px">CREATOR</div>
+      <a class="nav-item" href="ads-creator.html"><span class="nav-icon">⬡</span> Creator Ads</a>
+      <a class="nav-item active" href="ads-milestone.html"><span class="nav-icon">◬</span> Milestones</a>
+      <a class="nav-item" href="ads-admin.html"><span class="nav-icon">⬢</span> Ad Analytics</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-mini">
+        <div class="user-avatar">G</div>
+        <div>
+          <div class="user-mini-name">Gio (Creator)</div>
+          <div class="user-mini-xp">Growth Plan</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Milestones</div>
+        <div class="topbar-sub">CUMULATIVE VERIFIED VIEWS → FREE SUBSCRIPTION DAYS</div>
+      </div>
+      <div class="community-pill">
+        <div class="comm-dot"></div>
+        <span id="active-community">UTOPIA Genesis</span>
+        <select id="comm-switch" style="background:transparent;border:none;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;outline:none;cursor:pointer;margin-left:4px" onchange="switchComm(this.value)">
+          <option value="0">UTOPIA Genesis</option>
+          <option value="1">Blockchain Raiders</option>
+          <option value="2">Meme Lords</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- HERO PROGRESS BAR -->
+    <div class="hero-progress">
+      <div class="hp-top">
+        <div class="hp-left">
+          <div class="hp-tag">— CURRENT MILESTONE PROGRESS</div>
+          <div class="hp-title">Starter Tier · 10,000 Views</div>
+          <div class="hp-sub">Reach 10,000 cumulative verified views to earn <strong>30 free days</strong> of subscription. Views never reset — they stack forever.</div>
+        </div>
+        <div class="hp-right">
+          <div class="hp-pct" id="pct-display">84%</div>
+          <div class="hp-pct-label">TO NEXT MILESTONE</div>
+        </div>
+      </div>
+
+      <div class="big-bar-wrap">
+        <div class="big-bar-labels">
+          <span class="big-bar-label">CURRENT: <span class="big-bar-val" id="current-views-label">8,412</span></span>
+          <span class="big-bar-label">TARGET: <span class="big-bar-val">10,000</span></span>
+        </div>
+        <div class="big-bar">
+          <div class="big-bar-fill" id="main-bar" style="width:84.1%"></div>
+        </div>
+        <div class="bar-markers">
+          <div class="bar-marker" style="left:25%">
+            <div class="bar-marker-tick"></div>
+            <div class="bar-marker-label">2.5k</div>
+          </div>
+          <div class="bar-marker" style="left:50%">
+            <div class="bar-marker-tick"></div>
+            <div class="bar-marker-label">5k</div>
+          </div>
+          <div class="bar-marker" style="left:75%">
+            <div class="bar-marker-tick"></div>
+            <div class="bar-marker-label">7.5k</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-counts">
+        <div class="hp-count">
+          <div class="hp-count-val neon" id="hp-current">8,412</div>
+          <div class="hp-count-label">VERIFIED VIEWS</div>
+        </div>
+        <div class="hp-count">
+          <div class="hp-count-val" id="hp-remaining">1,588</div>
+          <div class="hp-count-label">VIEWS TO GO</div>
+        </div>
+        <div class="hp-count">
+          <div class="hp-count-val gold" id="hp-earned">2</div>
+          <div class="hp-count-label">MONTHS EARNED</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE GRID -->
+    <div class="page-grid">
+      <div class="left-col">
+
+        <!-- TIER LADDER -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-tag">PROGRESSION</div>
+              <div class="card-title">Milestone Tier Ladder</div>
+            </div>
+            <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)">views are cumulative · never reset</div>
+          </div>
+          <div class="tier-ladder">
+
+            <!-- TIER 1: STARTER — completed twice -->
+            <div class="tier-item completed-tier">
+              <div class="tier-icon-wrap bronze">🥉</div>
+              <div class="tier-info">
+                <div class="tier-name">Starter</div>
+                <div class="tier-desc">10,000 verified views · earned ×2</div>
+                <div class="tier-mini-bar"><div class="tier-mini-fill" style="width:100%;background:var(--success)"></div></div>
+              </div>
+              <div class="tier-reward">
+                <div class="tier-reward-days" style="color:var(--success)">30</div>
+                <div class="tier-reward-label">DAYS / UNLOCK</div>
+              </div>
+              <div class="tier-status-badge badge-done">✓ DONE ×2</div>
+            </div>
+
+            <!-- TIER 2: GROWTH — current -->
+            <div class="tier-item current-tier">
+              <div class="tier-icon-wrap silver">🥈</div>
+              <div class="tier-info">
+                <div class="tier-name">Growth <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--neon);background:rgba(99,120,255,0.1);padding:2px 7px;border-radius:4px;margin-left:6px">CURRENT</span></div>
+                <div class="tier-desc">25,000 cumulative views · 8,412 / 25,000</div>
+                <div class="tier-mini-bar"><div class="tier-mini-fill" style="width:33.6%"></div></div>
+              </div>
+              <div class="tier-reward">
+                <div class="tier-reward-days" style="background:linear-gradient(135deg,var(--neon),var(--neon2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">60</div>
+                <div class="tier-reward-label">DAYS / UNLOCK</div>
+              </div>
+              <div class="tier-status-badge badge-current">● IN PROGRESS</div>
+            </div>
+
+            <!-- TIER 3: SCALE -->
+            <div class="tier-item">
+              <div class="tier-icon-wrap gold">🥇</div>
+              <div class="tier-info">
+                <div class="tier-name">Scale</div>
+                <div class="tier-desc">50,000 cumulative views · locked</div>
+                <div class="tier-mini-bar"><div class="tier-mini-fill" style="width:0%"></div></div>
+              </div>
+              <div class="tier-reward">
+                <div class="tier-reward-days" style="color:var(--gold)">120</div>
+                <div class="tier-reward-label">DAYS / UNLOCK</div>
+              </div>
+              <div class="tier-status-badge badge-locked">🔒 LOCKED</div>
+            </div>
+
+            <!-- TIER 4: ELITE (future) -->
+            <div class="tier-item" style="opacity:.35">
+              <div class="tier-icon-wrap platinum">💎</div>
+              <div class="tier-info">
+                <div class="tier-name">Elite <span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--warn);background:rgba(255,170,0,0.1);padding:2px 7px;border-radius:4px;margin-left:6px">COMING SOON</span></div>
+                <div class="tier-desc">100,000 cumulative views · future tier</div>
+                <div class="tier-mini-bar"><div class="tier-mini-fill" style="width:0%"></div></div>
+              </div>
+              <div class="tier-reward">
+                <div class="tier-reward-days" style="color:var(--neon3)">365</div>
+                <div class="tier-reward-label">DAYS / UNLOCK</div>
+              </div>
+              <div class="tier-status-badge badge-locked">⏳ FUTURE</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- EVENT HISTORY -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-tag">LOG</div>
+              <div class="card-title">Subscription Events</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="history-list" id="history-list">
+              <div class="history-item">
+                <div class="hi-icon">🎉</div>
+                <div class="hi-info">
+                  <div class="hi-title">Starter milestone reached</div>
+                  <div class="hi-meta">10,000 views · tier: starter</div>
+                </div>
+                <div class="hi-reward">
+                  <div class="hi-days">+30 days</div>
+                  <div class="hi-date">22 Feb 2026</div>
+                </div>
+              </div>
+              <div class="history-item">
+                <div class="hi-icon">🎉</div>
+                <div class="hi-info">
+                  <div class="hi-title">Starter milestone reached</div>
+                  <div class="hi-meta">10,000 views · tier: starter</div>
+                </div>
+                <div class="hi-reward">
+                  <div class="hi-days">+30 days</div>
+                  <div class="hi-date">14 Jan 2026</div>
+                </div>
+              </div>
+              <div class="history-item">
+                <div class="hi-icon">🚀</div>
+                <div class="hi-info">
+                  <div class="hi-title">Community created</div>
+                  <div class="hi-meta">UTOPIA Genesis · Growth plan activated</div>
+                </div>
+                <div class="hi-reward">
+                  <div class="hi-days" style="color:var(--neon)">—</div>
+                  <div class="hi-date">01 Nov 2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="right-col">
+
+        <!-- SUBSCRIPTION STATUS -->
+        <div class="sub-status-card">
+          <div class="sub-tag">SUBSCRIPTION STATUS</div>
+          <div class="sub-plan-row">
+            <div class="sub-plan-name">Growth Plan</div>
+            <div class="sub-plan-badge">● ACTIVE</div>
+          </div>
+          <div class="sub-expiry-wrap">
+            <div class="sub-expiry-label">SUBSCRIPTION EXPIRES</div>
+            <div class="sub-expiry-date" id="sub-expiry-date">28 April 2026</div>
+            <div class="sub-expiry-days" id="sub-days-left">60 days remaining</div>
+            <div class="sub-bar">
+              <div class="sub-bar-fill" id="sub-bar-fill" style="width:66%"></div>
+            </div>
+          </div>
+          <div class="sub-info-row"><div class="sub-info-label">Plan</div><div class="sub-info-val">Growth · €19/mo</div></div>
+          <div class="sub-info-row"><div class="sub-info-label">Free months earned</div><div class="sub-info-val" style="color:var(--success)">2</div></div>
+          <div class="sub-info-row"><div class="sub-info-label">Total value earned</div><div class="sub-info-val" style="color:var(--gold)">€38.00</div></div>
+        </div>
+
+        <!-- HOW IT WORKS MATH -->
+        <div class="math-card">
+          <div class="math-tag">HOW IT WORKS</div>
+          <div class="math-formula">
+<span class="hl">if</span> community.cumulative_views
+   &gt;= <span class="val">10,000</span>:<br/>
+&nbsp;&nbsp;extend_subscription(<span class="val">+30 days</span>)<br/>
+&nbsp;&nbsp;log_event(<span class="hl">"free_month_earned"</span>)<br/>
+&nbsp;&nbsp;free_months_total += <span class="val">1</span><br/>
+&nbsp;&nbsp;cumulative_views -= <span class="val">10,000</span>
+          </div>
+          <div class="math-row"><div class="math-label">Milestone threshold</div><div class="math-val" style="color:var(--neon)">10,000 views</div></div>
+          <div class="math-row"><div class="math-label">Views reset after trigger?</div><div class="math-val" style="color:var(--danger)">No — subtract only</div></div>
+          <div class="math-row"><div class="math-label">Trigger type</div><div class="math-val">Atomic DB tx</div></div>
+          <div class="math-row"><div class="math-label">Revenue rate</div><div class="math-val" style="color:var(--success)">€0.006 / view</div></div>
+          <div class="math-row"><div class="math-label">Value at 10k views</div><div class="math-val" style="color:var(--gold)">€60.00</div></div>
+        </div>
+
+        <!-- SIMULATE BUTTON (demo) -->
+        <div style="background:var(--bg2);border:1px dashed rgba(99,120,255,0.3);border-radius:16px;padding:20px;text-align:center">
+          <div style="font-size:10px;letter-spacing:2px;color:var(--neon);font-family:'DM Mono',monospace;margin-bottom:10px">DEMO</div>
+          <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.5">Simulate views being added to test the milestone trigger in action.</div>
+          <button onclick="simulateViews(500)" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--neon),var(--neon3));border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:8px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+            Add +500 Views
+          </button>
+          <button onclick="simulateViews(2000)" style="width:100%;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--text2);font-family:'Syne',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--neon)'" onmouseout="this.style.borderColor='var(--border)'">
+            Add +2,000 Views (trigger milestone!)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MILESTONE TRIGGERED POPUP -->
+<div class="milestone-popup" id="milestone-popup">
+  <div class="confetti-container" id="confetti"></div>
+  <div class="milestone-box">
+    <div class="milestone-glow">🎉</div>
+    <div class="milestone-title">Milestone Reached!</div>
+    <div class="milestone-sub">Your community hit <strong id="popup-views">10,000</strong> verified views. Your subscription has been extended automatically.</div>
+    <div class="milestone-reward-chip">✓ +30 Free Days Added</div>
+    <button class="milestone-close" onclick="closeMilestone()">Awesome, continue →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const COMMUNITIES_DATA = [
+  { name:'UTOPIA Genesis',    views:8412, earned:2, threshold:10000 },
+  { name:'Blockchain Raiders',views:3201, earned:0, threshold:10000 },
+  { name:'Meme Lords',        views:9821, earned:1, threshold:10000 },
+];
+
+let currentIdx = 0;
+
+function switchComm(idx) {
+  currentIdx = parseInt(idx);
+  renderAll();
+}
+
+function renderAll() {
+  const c = COMMUNITIES_DATA[currentIdx];
+  const pct = Math.min(100, (c.views / c.threshold * 100));
+  const remaining = Math.max(0, c.threshold - c.views);
+
+  document.getElementById('active-community').textContent = c.name;
+  document.getElementById('pct-display').textContent = pct.toFixed(0) + '%';
+  document.getElementById('current-views-label').textContent = c.views.toLocaleString();
+  document.getElementById('main-bar').style.width = pct + '%';
+  document.getElementById('hp-current').textContent = c.views.toLocaleString();
+  document.getElementById('hp-remaining').textContent = remaining.toLocaleString();
+  document.getElementById('hp-earned').textContent = c.earned;
+}
+
+function simulateViews(delta) {
+  const c = COMMUNITIES_DATA[currentIdx];
+  const prevViews = c.views;
+  c.views += delta;
+
+  // Animate progress bar
+  let start = prevViews;
+  const end = c.views;
+  const duration = 1200;
+  const startTime = performance.now();
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(start + (end - start) * eased);
+    const pct = Math.min(100, (current / c.threshold * 100));
+
+    document.getElementById('main-bar').style.width = pct + '%';
+    document.getElementById('pct-display').textContent = pct.toFixed(0) + '%';
+    document.getElementById('hp-current').textContent = current.toLocaleString();
+    document.getElementById('current-views-label').textContent = current.toLocaleString();
+    document.getElementById('hp-remaining').textContent = Math.max(0, c.threshold - current).toLocaleString();
+
+    if (progress < 1) requestAnimationFrame(animate);
+    else checkMilestone(c, prevViews);
+  }
+  requestAnimationFrame(animate);
+}
+
+function checkMilestone(c, prevViews) {
+  if (c.views >= c.threshold && prevViews < c.threshold) {
+    // Trigger!
+    setTimeout(() => {
+      document.getElementById('popup-views').textContent = c.threshold.toLocaleString();
+      document.getElementById('milestone-popup').classList.add('visible');
+      spawnConfetti();
+
+      // Reset counter
+      c.views -= c.threshold;
+      c.earned++;
+    }, 400);
+  } else {
+    renderAll();
+    showToast(`+${(c.views - prevViews + c.threshold * (c.views < 0 ? 1 : 0)).toLocaleString()} views added`, 'success');
+  }
+}
+
+function closeMilestone() {
+  document.getElementById('milestone-popup').classList.remove('visible');
+  document.getElementById('confetti').innerHTML = '';
+  renderAll();
+  showToast('Subscription extended by 30 days! 🎉', 'success');
+}
+
+function spawnConfetti() {
+  const container = document.getElementById('confetti');
+  container.innerHTML = '';
+  const colors = ['#6378ff','#00e5ff','#a855f7','#00c896','#ffc107','#ff4466'];
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${1.5 + Math.random()*2}s;
+      animation-delay:${Math.random()*0.5}s;
+      transform:rotate(${Math.random()*360}deg);
+      width:${6 + Math.random()*8}px;height:${6 + Math.random()*8}px;
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'}
+    `;
+    container.appendChild(el);
+  }
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+renderAll();
+</script>
+</body>
+</html>
